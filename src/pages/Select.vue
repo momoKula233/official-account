@@ -44,10 +44,12 @@ export default {
   },
   methods: {
     login() {
+      Order.init();
       this.$router.go({ name: 'login' });
     },
     comfirm() {
-      // this.$router.go({ name: 'comfirm' });
+      const isVaild = this.selectedType !== 0 && this.selectedLocation !== 0;
+      if (isVaild) this.$router.go({ name: 'order' });
     },
     onTypeChange(val) {
       console.log(val);

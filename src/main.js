@@ -6,6 +6,11 @@ import Home from './pages/Home';
 import Detail from './pages/Detail';
 import Select from './pages/Select';
 import Login from './pages/Login';
+import Order from './pages/Order';
+import MemberOrder from './pages/MemberOrder';
+import Bank from './pages/Bank';
+import Finish from './pages/Finish';
+
 
 // plugins
 import ToastPlugin from 'vux/src/plugins/toast';
@@ -78,6 +83,22 @@ router.map({
   '/login': {
     name: 'login',
     component: Login,
+  },
+  '/order': {
+    name: 'order',
+    component: Order,
+  },
+  '/member_order': {
+    name: 'member_order',
+    component: MemberOrder,
+  },
+  '/bank': {
+    name: 'bank',
+    component: Bank,
+  },
+  '/finish': {
+    name: 'finish',
+    component: Finish,
   },
 });
 

@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
-    <x-input title="会员ID" type="text" placeholder="请输入" :value.sync="password" :min="6" :max="6" @on-change="change"></x-input>
-    <x-input title="密 码" type="text" placeholder="请输入" :equal-with="password"></x-input>
+    <x-input title="会员ID" type="text" placeholder="请输入" :value.sync="id" @on-change="inputId"></x-input>
+    <x-input title="密 码" type="text" placeholder="请输入" :value.sync="password" @on-change="inputPassword"></x-input>
     <flexbox class="buttons">
      <x-button type="primary" @click="login">确认登录</x-button>
     </flexbox>
@@ -10,7 +10,6 @@
 
 <script>
 import { XButton, Flexbox, XInput } from 'vux/src/components';
-// import { Order } from '../data/order';
 
 export default {
   components: {
@@ -20,15 +19,20 @@ export default {
   },
   data() {
     return {
-      username: null,
+      id: null,
       password: null,
     };
   },
   methods: {
     login() {
-      console.log(this.username, this.password);
+      console.log(this.id, this.password);
+      const success = true;
+      if (success) this.$router.go({ name: 'member_order' });
     },
-    change(val) {
+    inputId(val) {
+      console.log(val);
+    },
+    inputPassword(val) {
       console.log(val);
     },
   },

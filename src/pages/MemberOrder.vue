@@ -1,14 +1,14 @@
 <template>
-  <div class="hello">
-    <h1>{{ $route.params.id }}</h1>
+  <div>
     <flexbox class="buttons">
-      <x-button type="primary" @click="goSelect">即刻预定</x-button>
+      <x-button type="primary" @click="pay">确认扣除</x-button>
     </flexbox>
   </div>
 </template>
 
 <script>
 import { XButton, Flexbox, FlexboxItem } from 'vux/src/components';
+import { Order } from '../data/order';
 export default {
   components: {
     XButton,
@@ -21,18 +21,16 @@ export default {
     };
   },
   methods: {
-    goSelect() {
-      this.$router.go({ name: 'select' });
+    pay() {
+      const success = true;
+      Order.init();
+      if (success) this.$router.go({ name: 'finish' });
     },
   },
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  h1 {
-    color: #42b983;
-  }
   .buttons {
     width: 90%;
     margin-left: 5%;
