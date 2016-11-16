@@ -7,9 +7,13 @@
 
 <script>
 import store from './vuex/store';
+const commit = store.commit || store.dispatch;
 import { Loading, ViewBox } from 'vux/src/components';
 
 export default {
+  ready() {
+    commit('UPDATE_LOADING', true);
+  },
   components: {
     Loading,
     ViewBox,

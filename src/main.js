@@ -2,8 +2,10 @@ import Vue from 'vue';
 import App from './App';
 import VueRouter from 'vue-router';
 
-import Home from './components/Home';
-import Detail from './components/Detail';
+import Home from './pages/Home';
+import Detail from './pages/Detail';
+import Select from './pages/Select';
+import Login from './pages/Login';
 
 // plugins
 import ToastPlugin from 'vux/src/plugins/toast';
@@ -68,6 +70,14 @@ router.map({
   '/detail/:id': {
     name: 'detail',
     component: Detail,
+  },
+  '/select': {
+    name: 'select',
+    component: Select,
+  },
+  '/login': {
+    name: 'login',
+    component: Login,
   },
 });
 

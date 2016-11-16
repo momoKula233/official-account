@@ -3,21 +3,22 @@
     <div class="topbar"></div>
     <div class="map">
       <img src="../images/map.jpg" alt="地图">
+      <a href="#" class="customer-service"></a>
     </div>
     <div class="action-bar">
       <p class="selector-title">会议室/咖啡位位置</p>
       <div class="selector-item before-txt">
-        <selector placeholder="类型" :options="type" @on-change="onTypeChange"></selector>
+        <selector-center placeholder="类型" :options="type" @on-change="onTypeChange"></selector-center>
       </div>
       <div class="selector-item">
-        <selector placeholder="区域" :options="area" @on-change="onAreaChange"></selector>
+        <selector-center placeholder="区域" :options="area" @on-change="onAreaChange"></selector-center>
       </div>
       <div class="selector-item">
-        <selector placeholder="人数" :options="members" @on-change="onMembersChange"></selector>
+        <selector-center placeholder="人数" :options="members" @on-change="onMembersChange"></selector-center>
       </div>
     </div>
     <div class="selections">
-      <card @click="goToPage(item.id)" v-for="item in Location" v-show="showCard(item.id)">
+      <card @click="goToPage(item.id)" v-for="item in Location" :style="{ display: showCard(item.id) }" >
         <img slot="header" :src="item.image" style="width:100%;display:block;">
         <div slot="content" class="card-content">
           <p class="location"><span>{{ item.name1 }}</span>{{ item.name2 }}</p>
@@ -25,7 +26,7 @@
         </div>
       </card>
     </div>
-    <button class="order-btn">即刻预定</button>
+    <button class="order-btn" @click="goSelect">即刻预定</button>
     <div class="footer">
       <p>© 2016 Wizwork All Rights Reserved. Design by Yuki</p>
     </div>
@@ -33,72 +34,67 @@
 </template>
 
 <script>
-import { Card, XButton, Box, Selector } from 'vux/src/components';
+import { Card, XButton, Box, SelectorCenter } from 'vux/src/components';
 import { Location, ALL_LOCATION, TypeOption, AreaOption, MembersOption } from '../data/location';
-
-
+ /* eslint-disable max-len */
 export default {
   components: {
     Card,
     XButton,
     Box,
-    Selector,
+    SelectorCenter,
   },
   data() {
     return {
-      filter: ALL_LOCATION,
       Location,
       selected: 1,
       type: TypeOption,
       area: AreaOption,
       members: MembersOption,
+      filter: ALL_LOCATION,
       typeFilter: ALL_LOCATION,
       areaFilter: ALL_LOCATION,
       membersFilter: ALL_LOCATION,
     };
   },
-  // computed: {
-  //   showCard: (index) => {
-  //     console.log(index);
-  //     return true;
+  // watch: {
+  //   membersFilter: () => {
+  //     const newFilter = ALL_LOCATION.filter((id) => this.typeFilter.includes(id) && this.areaFilter.includes(id) && this.membersFilter.includes(id));
+  //     this.filter = newFilter;
+  //     console.log(this.filter, newFilter);
   //   },
   // },
   methods: {
     goToPage(index) {
       this.$router.go({ name: 'detail', params: { id: index } });
     },
+    goSelect() {
+      this.$router.go({ name: 'select' });
+    },
     showCard(index) {
-      /* eslint-disable max-len */
-      if (this.filter.includes(index)) return true;
-      return false;
+      // console.log(index, this.filter.includes(parseInt(index, 10)));
+      if (this.filter.includes(parseInt(index, 10))) return 'block';
+      return 'none';
     },
     onTypeChange(val) {
-      if (val) {
-        this.typeFilter = val;
-      } else {
-        this.typeFilter = ALL_LOCATION;
-      }
+      if (Array.isArray(val)) this.typeFilter = val || ALL_LOCATION;
       this.filterAll();
     },
     onAreaChange(val) {
-      if (val) {
-        this.areaFilter = val;
-      } else {
-        this.areaFilter = ALL_LOCATION;
-      }
+      if (Array.isArray(val)) this.areaFilter = val || ALL_LOCATION;
       this.filterAll();
     },
     onMembersChange(val) {
-      if (val) {
-        this.membersFilter = val;
-      } else {
-        this.membersFilter = ALL_LOCATION;
-      }
+      if (Array.isArray(val)) this.membersFilter = val || ALL_LOCATION;
       this.filterAll();
     },
     filterAll() {
       const newFilter = ALL_LOCATION.filter((id) => this.typeFilter.includes(id) && this.areaFilter.includes(id) && this.membersFilter.includes(id));
       this.filter = newFilter;
+      // this.Location = Location;
+      // this.Location = this.Location.filter((item) => newFilter.includes(item.id));
+      // this.$set('filter', newFilter);
+      console.log(this.filter);
     },
   },
 };
@@ -116,18 +112,34 @@ export default {
 .home-layout {
   background-color: #f4f4f4;
   overflow-x: scroll;
-  border-color: red;
-  border-width: 1px;
   height: 100%;
 }
 .topbar {
   height: 70px;
   background-color: #333;
 }
+.map {
+  position: relative;
+}
 .map img{
   width: 100%;
   display: block;
   vertical-align: top;
+}
+.customer-service {
+  display: block;
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
+  width: 106px;
+  height: 47px;
+  background: url("../images/service.png") no-repeat;
+  background-size: contain;
+  outline: none;
+}
+.customer-service:hover {
+  cursor: pointer;
+  outline: none;
 }
 .action-bar {
   background-color: #333;
@@ -135,7 +147,7 @@ export default {
   padding-top: 12px;
 }
 .selector-item {
-  width: 20%;
+  width: 22%;
   height: 40px;
   background-color: #1b1b1b;
   display: inline-block;
@@ -199,5 +211,8 @@ export default {
   font-size: 10px;
   padding-left: 3%;
   border-bottom: 4px solid #3aa1a7;
+}
+.hide {
+  display: none;
 }
 </style>
