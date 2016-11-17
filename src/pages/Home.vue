@@ -1,6 +1,6 @@
 <template>
   <div class="home-layout">
-    <div class="topbar"></div>
+    <Topbar></Topbar>
     <div class="map">
       <img src="../images/map.jpg" alt="地图">
       <a href="#" class="customer-service"></a>
@@ -36,6 +36,7 @@
 <script>
 import { Card, XButton, Box, SelectorCenter } from 'vux/src/components';
 import { Location, ALL_LOCATION, TypeOption, AreaOption, MembersOption } from '../data/location';
+import { Topbar } from '../components';
  /* eslint-disable max-len */
 export default {
   components: {
@@ -43,6 +44,7 @@ export default {
     XButton,
     Box,
     SelectorCenter,
+    Topbar,
   },
   data() {
     return {
@@ -113,10 +115,6 @@ export default {
   background-color: #f4f4f4;
   overflow-x: scroll;
   height: 100%;
-}
-.topbar {
-  height: 70px;
-  background-color: #333;
 }
 .map {
   position: relative;
