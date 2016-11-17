@@ -1,7 +1,11 @@
 <template>
   <div class="layout">
-    <x-input title="会员ID" type="text" placeholder="请输入" :value.sync="id" @on-change="inputId"></x-input>
-    <x-input title="密 码" type="text" placeholder="请输入" :value.sync="password" @on-change="inputPassword"></x-input>
+    <group>
+      <x-input title="会员ID" type="text" placeholder="请输入" :value.sync="id" @on-change="inputId"></x-input>
+    </group>
+    <group>
+      <x-input title="密&nbsp;码" type="text" placeholder="请输入" :value.sync="password" @on-change="inputPassword"></x-input>
+    </group>
     <flexbox class="buttons">
      <x-button type="primary" @click="login">确认登录</x-button>
     </flexbox>
@@ -9,13 +13,14 @@
 </template>
 
 <script>
-import { XButton, Flexbox, XInput } from 'vux/src/components';
+import { XButton, Flexbox, Group, XInput } from 'vux/src/components';
 
 export default {
   components: {
     XButton,
     Flexbox,
     XInput,
+    Group,
   },
   data() {
     return {
@@ -42,12 +47,15 @@ export default {
 <style scoped>
   .layout {
     height: 100%;
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
     position: relative;
+    overflow: hidden;
   }
   .buttons {
+    width: 90%;
     position: absolute;
     bottom: 20px;
+    left: 5%;
   }
 </style>

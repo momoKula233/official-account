@@ -1,12 +1,11 @@
 <template>
   <div class="layout">
     <group>
-      <selector title="类型" placeholder="请选择" :options="type" @on-change="onTypeChange" class="marginTop"></selector>
+      <selector title="类型" placeholder="请选择" :options="type" @on-change="onTypeChange"></selector>
     </group>
-    <group>
+    <group class="tip">
       <datetime :value.sync="date1" format="YYYY-MM-DD HH:mm" @on-change="onDate1Change" title="开始时间" :min-year=2016></datetime>
     </group>
-    <p>(每30分钟计费)</p>
     <group>
       <datetime :value.sync="date2" format="YYYY-MM-DD HH:mm" @on-change="onDate2Change" title="结束时间"></datetime>
     </group>
@@ -14,7 +13,7 @@
       <selector title="地点" placeholder="请选择" :options="location" @on-change="onLocationChange"></selector>
     </group>
     <group>
-      <p>{{ price }}</p>
+      <p class="price">价格：{{ price }}元</p>
     </group>
     <flexbox class="buttons">
       <flexbox-item>
@@ -50,7 +49,7 @@ export default {
       location: Location,
       selectedType: 0,
       selectedLocation: 0,
-      price: '自动计算价格',
+      price: 0,
       date1: '',
       date2: '',
     };
@@ -79,6 +78,7 @@ export default {
     },
     onDate2Change(val) {
       console.log(val, this.date1, this.date2);
+      // this.price = 100;
     },
   },
 };
@@ -90,6 +90,7 @@ export default {
     width: 100%;
     margin: 0 auto;
     position: relative;
+    overflow: hidden;
   }
   .buttons {
     width: 90%;
@@ -97,8 +98,18 @@ export default {
     bottom: 20px;
     left: 5%;
   }
-  .marginTop {
+  .tip {
     position: relative;
-    top: 5%;
+    margin-bottom: 20px;
+  }
+  .tip::after {
+    content: "(每30分钟计费)";
+    position: absolute;
+    right: 5%;
+    font-size: 10px;
+    color: #888;
+  }
+  .price {
+    padding: 10px 15px;
   }
 </style>

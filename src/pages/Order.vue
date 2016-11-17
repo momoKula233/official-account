@@ -1,7 +1,20 @@
 <template>
   <div class="layout">
-    <x-input title="姓 名" type="text" placeholder="请输入" :value.sync="username" @on-change="inputName"></x-input>
-    <x-input title="手 机" type="text" placeholder="请输入" :value.sync="mobile" @on-change="inputMobile"></x-input>
+    <group>
+      <x-input title="姓 名" type="text" placeholder="请输入" :value.sync="username" @on-change="inputName"></x-input>
+    </group>
+    <group>
+      <x-input title="手 机" type="text" placeholder="请输入" :value.sync="mobile" @on-change="inputMobile"></x-input>
+    </group>
+    <group>
+      <p class="padding">空间：{{ location }}</p>
+    </group>
+    <group>
+      <p class="padding">使用时段：{{ date }}</p>
+    </group>
+    <group>
+      <p class="padding">小计：{{ price }}元</p>
+    </group>
     <flexbox class="buttons">
       <flexbox-item>
         <x-button type="primary" @click="byBank">银联支付</x-button>
@@ -15,8 +28,8 @@
 </template>
 
 <script>
-import { XButton, Flexbox, XInput, FlexboxItem, Toast } from 'vux/src/components';
-import { Order } from '../data/order';
+import { XButton, Flexbox, XInput, FlexboxItem, Toast, Group } from 'vux/src/components';
+// import { Order } from '../data/order';
 
 export default {
   components: {
@@ -25,12 +38,16 @@ export default {
     XInput,
     FlexboxItem,
     Toast,
+    Group,
   },
   data() {
     return {
       username: null,
       mobile: null,
       show: false,
+      location: '',
+      date: '',
+      price: 0,
     };
   },
   methods: {
@@ -45,13 +62,13 @@ export default {
       // const success = false;
       // if (!success) this.show = true;
       const success = true;
-      Order.init();
+      // Order.init();
       if (success) this.$router.go({ name: 'bank' });
     },
     byWechat() {
       console.log(this.id, this.password);
       const success = true;
-      Order.init();
+      // Order.init();
       if (success) this.$router.go({ name: 'finish' });
     },
   },
@@ -61,12 +78,18 @@ export default {
 <style scoped>
   .layout {
     height: 100%;
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
     position: relative;
+    overflow: hidden;
   }
   .buttons {
+    width: 90%;
     position: absolute;
     bottom: 20px;
+    left: 5%;
+  }
+  .padding {
+    padding: 10px 15px;
   }
 </style>
