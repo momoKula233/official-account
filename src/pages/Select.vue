@@ -1,11 +1,21 @@
 <template>
   <div class="layout">
-    <selector title="预约类型" placeholder="请选择" :options="type" @on-change="onTypeChange"></selector>
-    <br><br><br>
-    <p>选择时间</p><br><br><br>
-    <selector title="地点" placeholder="请选择" :options="location" @on-change="onLocationChange"></selector>
-    <br><br><br>
-    <p>自动计算价格</p><br><br><br>
+    <group>
+      <selector title="类型" placeholder="请选择" :options="type" @on-change="onTypeChange" class="marginTop"></selector>
+    </group>
+    <group>
+      <datetime :value.sync="date1" format="YYYY-MM-DD HH:mm" @on-change="onDate1Change" title="开始时间" :min-year=2016></datetime>
+    </group>
+    <p>(每30分钟计费)</p>
+    <group>
+      <datetime :value.sync="date2" format="YYYY-MM-DD HH:mm" @on-change="onDate2Change" title="结束时间"></datetime>
+    </group>
+    <group>
+      <selector title="地点" placeholder="请选择" :options="location" @on-change="onLocationChange"></selector>
+    </group>
+    <group>
+      <p>{{ price }}</p>
+    </group>
     <flexbox class="buttons">
       <flexbox-item>
         <x-button type="primary" @click="comfirm">现在支付</x-button>
@@ -18,7 +28,7 @@
 </template>
 
 <script>
-import { Selector, XButton, Flexbox, FlexboxItem } from 'vux/src/components';
+import { Selector, XButton, Flexbox, FlexboxItem, Group, Datetime } from 'vux/src/components';
 import { Type, Location } from '../data/select';
 import { Order } from '../data/order';
 
@@ -28,6 +38,8 @@ export default {
     XButton,
     Flexbox,
     FlexboxItem,
+    Group,
+    Datetime,
   },
   ready() {
     Order.init();
@@ -38,8 +50,9 @@ export default {
       location: Location,
       selectedType: 0,
       selectedLocation: 0,
-      price: 0,
-      time: 0,
+      price: '自动计算价格',
+      date1: '',
+      date2: '',
     };
   },
   methods: {
@@ -61,6 +74,12 @@ export default {
       this.selectedLocation = val;
       Order.setLocation(val);
     },
+    onDate1Change(val) {
+      console.log(val, this.date1, this.date2);
+    },
+    onDate2Change(val) {
+      console.log(val, this.date1, this.date2);
+    },
   },
 };
 </script>
@@ -68,12 +87,18 @@ export default {
 <style scoped>
   .layout {
     height: 100%;
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
     position: relative;
   }
   .buttons {
+    width: 90%;
     position: absolute;
     bottom: 20px;
+    left: 5%;
+  }
+  .marginTop {
+    position: relative;
+    top: 5%;
   }
 </style>
