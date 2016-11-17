@@ -103,7 +103,8 @@ export default {
     margin-bottom: 20px;
   }
   .tip::after {
-    content: "(每30分钟计费)";
+    content: "";
+    /*(超出30分钟按1小时)*/
     position: absolute;
     right: 5%;
     font-size: 10px;
