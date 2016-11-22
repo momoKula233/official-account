@@ -4,16 +4,17 @@
       <x-input title="会员ID" type="text" placeholder="请输入" :value.sync="id" @on-change="inputId"></x-input>
     </group>
     <group>
-      <x-input title="密&nbsp;码" type="text" placeholder="请输入" :value.sync="password" @on-change="inputPassword"></x-input>
+      <x-input title="密&nbsp;码" type="password" placeholder="请输入" :value.sync="password" @on-change="inputPassword"></x-input>
     </group>
     <flexbox class="buttons">
      <x-button type="primary" @click="login">确认登录</x-button>
     </flexbox>
+    <toast :show.sync="show" type="cancel" :time="1000">登陆失败</toast>
   </div>
 </template>
 
 <script>
-import { XButton, Flexbox, Group, XInput } from 'vux/src/components';
+import { XButton, Flexbox, Group, XInput, Toast } from 'vux/src/components';
 
 export default {
   components: {
@@ -21,6 +22,7 @@ export default {
     Flexbox,
     XInput,
     Group,
+    Toast,
   },
   data() {
     return {
@@ -30,9 +32,18 @@ export default {
   },
   methods: {
     login() {
-      console.log(this.id, this.password);
-      const success = true;
-      if (success) this.$router.go({ name: 'member_order' });
+      const { id, password } = this;
+      this.$http.post('/api/login', { id, password }).then(resp => {
+        const resault = resp.json();
+        console.log(resault);
+        if (resault.success) {
+          const { company } = resault;
+          localStorage.setItem('COMPANY', JSON.stringify(company));
+          this.$router.go({ name: 'member_order' });
+        } else {
+          this.$set('show', true);
+        }
+      });
     },
     inputId(val) {
       console.log(val);

@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import App from './App';
 import VueRouter from 'vue-router';
+import VueResource from 'vue-resource';
+
 
 import Home from './pages/Home';
 import Detail from './pages/Detail';
@@ -22,6 +24,7 @@ FastClick.attach(document.body);
 Vue.use(VueRouter);
 Vue.use(ToastPlugin);
 Vue.use(AlertPlugin);
+Vue.use(VueResource);
 
 const router = new VueRouter({
   history: true,

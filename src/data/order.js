@@ -13,6 +13,7 @@ class OrderData {
     this.setDate = this.setDate.bind(this);
     this.setPrice = this.setPrice.bind(this);
     this.init = this.init.bind(this);
+    this.setTime = this.setTime.bind(this);
   }
   setName(name) {
     this.name = name;
@@ -32,6 +33,10 @@ class OrderData {
   setType(type) {
     this.type = type;
   }
+  setTime(start, end) {
+    this.startTime = start;
+    this.endTime = end;
+  }
   init() {
     this.name = '';
     this.mobile = null;
@@ -39,6 +44,7 @@ class OrderData {
     this.date = null;
     this.price = null;
     this.type = null;
+    localStorage.setItem('COMPANY', '');
   }
 }
 

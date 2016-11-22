@@ -1,8 +1,7 @@
-var path = require('path')
+/* eslint-disable */
 var express = require('express')
 var webpack = require('webpack')
 var config = require('../config')
-var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = process.env.NODE_ENV === 'testing'
   ? require('./webpack.prod.conf')
   : require('./webpack.dev.conf')
@@ -11,10 +10,49 @@ var webpackConfig = process.env.NODE_ENV === 'testing'
 var port = process.env.PORT || config.dev.port
 // Define HTTP proxies to your custom API backend
 // https://github.com/chimurai/http-proxy-middleware
-var proxyTable = config.dev.proxyTable
 
-var app = express()
-var compiler = webpack(webpackConfig)
+const app = express()
+const compiler = webpack(webpackConfig)
+
+const proxyMiddleware = require('http-proxy-middleware')
+const proxyTable = config.prod.proxyTable
+const wechat = require('wechat');
+const bodyParser = require('body-parser');
+const path = require('path');
+const WechatApi = require('wechat-api');
+const WechatOauth = require('wechat-oauth');
+
+const Promise = require('bluebird');
+const db = require('sqlite');
+
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const swig = require('swig');
+import api from './api';
+
+// const [token, appid, EncodingAESKey, appsecret] =
+//       ['xjbtoken2333', 'wx818254b4c2b5bb7e', '49a35f5b9483e8f0011cf568b69c0d66', '49a35f5b9483e8f0011cf568b69c0d66'];
+// const api = new WechatApi(appid, appsecret);
+// const client = new WechatOauth(appid, appsecret);
+
+let url;
+app.use(bodyParser.urlencoded({extended: false}));  
+app.use(bodyParser.json());
+
+app.set('views', 'dist/');
+app.set('view engine', 'html');
+app.set('view cache', false);
+
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'dist'), {'extensions': ['html']}));
+app.engine('html', swig.renderFile);
+app.use(express.query());
+
+
+
 
 var devMiddleware = require('webpack-dev-middleware')(compiler, {
   publicPath: webpackConfig.output.publicPath,
@@ -32,6 +70,11 @@ compiler.plugin('compilation', function (compilation) {
     cb()
   })
 })
+
+
+
+app.use('/api', api);
+
 
 // proxy api requests
 Object.keys(proxyTable).forEach(function (context) {
@@ -56,10 +99,10 @@ app.use(hotMiddleware)
 var staticPath = path.posix.join(config.build.assetsPublicPath, config.build.assetsSubDirectory)
 app.use(staticPath, express.static('./static'))
 
-module.exports = app.listen(port, function (err) {
-  if (err) {
-    console.log(err)
-    return
-  }
-  console.log('Listening at http://localhost:' + port + '\n')
-})
+module.exports = Promise.resolve()
+  // First, try connect to the database and update its schema to the latest version 
+  .then(() => db.open('./database.db', { Promise }))
+  .catch(err => console.error(err.stack))
+  .finally(() => app.listen(port, (err) => { console.log("http oppened on " + port) }));
+
+

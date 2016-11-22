@@ -1,7 +1,10 @@
 <template>
   <div class="layout">
     <group>
-      <p class="padding">剩余可用时间：{{ total }}小时</p>
+      <p class="padding">{{ name }}</p>
+    </group>
+    <group>
+      <p class="padding">剩余可用时间：{{ rest_time }}小时</p>
     </group>
     <group>
       <p class="padding">空间：{{ location }}</p>
@@ -29,18 +32,23 @@ export default {
     Group,
   },
   data() {
+    let local = localStorage.getItem('COMPANY');
+    local = JSON.parse(local);
+    const { name, rest_time } = local;
     return {
-      total: 0,
+      rest_time,
       location: '',
       date: '',
       count: 0,
+      name,
     };
   },
   methods: {
     pay() {
-      const success = true;
+      console.log(localStorage.getItem('COMPANY'));
+      // const success = true;
       Order.init();
-      if (success) this.$router.go({ name: 'finish' });
+      // if (success) this.$router.go({ name: 'finish' });
     },
   },
 };

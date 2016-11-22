@@ -4,10 +4,10 @@
       <selector title="类型" placeholder="请选择" :options="type" @on-change="onTypeChange"></selector>
     </group>
     <group class="tip">
-      <datetime :value.sync="date1" format="YYYY-MM-DD HH:mm" @on-change="onDate1Change" title="开始时间" :min-year=2016></datetime>
+      <datetime :value.sync="date1" month-row="{value}月" day-row="{value}日" hour-row="{value}点" format="YYYY-MM-DD HH" @on-change="onDate1Change" title="开始时间" :min-year=2016></datetime>
     </group>
     <group>
-      <datetime :value.sync="date2" format="YYYY-MM-DD HH:mm" @on-change="onDate2Change" title="结束时间"></datetime>
+      <datetime :value.sync="date2" month-row="{value}月" day-row="{value}日" hour-row="{value}点" format="YYYY-MM-DD HH" @on-change="onDate2Change" title="结束时间"></datetime>
     </group>
     <group>
       <selector title="地点" placeholder="请选择" :options="location" @on-change="onLocationChange"></selector>
@@ -20,14 +20,16 @@
         <x-button type="primary" @click="comfirm">现在支付</x-button>
       </flexbox-item>
       <flexbox-item>
-        <x-button type="warn" @click="login">我是会员</x-button>
+        <x-button type="warn" @click="login">会员支付</x-button>
       </flexbox-item>
     </flexbox>
+    <toast :show.sync="show" type="cancel" :time="1000">订单填写有误</toast>
   </div>
 </template>
 
 <script>
-import { Selector, XButton, Flexbox, FlexboxItem, Group, Datetime } from 'vux/src/components';
+import { Selector, XButton, Flexbox, FlexboxItem, Group, Datetime,
+  Toast } from 'vux/src/components';
 import { Type, Location } from '../data/select';
 import { Order } from '../data/order';
 
@@ -39,6 +41,7 @@ export default {
     FlexboxItem,
     Group,
     Datetime,
+    Toast,
   },
   ready() {
     Order.init();
@@ -56,15 +59,25 @@ export default {
   },
   methods: {
     login() {
-      Order.init();
+      this.isVaild = this.selectedType !== 0 && this.date1 && this.date2 &&
+        this.selectedLocation !== 0;
+      if (!this.isVaild) {
+        this.$set('show', true);
+        return;
+      }
+      Order.setTime(this.newDate(this.time1), this.newDate(this.time2));
       this.$router.go({ name: 'login' });
     },
     comfirm() {
-      const isVaild = this.selectedType !== 0 && this.selectedLocation !== 0;
-      if (isVaild) this.$router.go({ name: 'order' });
+      this.isVaild = this.selectedType !== 0 && this.date1 && this.date2 &&
+        this.selectedLocation !== 0;
+      if (this.isVaild) {
+        this.$router.go({ name: 'order' });
+      } else {
+        this.$set('show', true);
+      }
     },
     onTypeChange(val) {
-      console.log(val);
       this.selectedType = val;
       Order.setType(val);
     },
@@ -74,11 +87,26 @@ export default {
       Order.setLocation(val);
     },
     onDate1Change(val) {
-      console.log(val, this.date1, this.date2);
+      this.time1 = this.newDate(val);
+      console.log(this.time1);
     },
     onDate2Change(val) {
-      console.log(val, this.date1, this.date2);
+      this.time2 = this.newDate(val);
+      if (this.time2 - this.time1 <= 0) {
+        this.$set('price', 0);
+        return;
+      }
+      const pirce = (this.time2 - this.time1) / 3600000;
+      this.$set('price', pirce);
       // this.price = 100;
+    },
+    newDate(time) {
+      console.log(time);
+      const i = time.substr(0, 4);
+      const o = time.substr(5, 2);
+      const u = time.substr(8, 2);
+      const m = time.substr(11, 2);
+      return new Date(i, o, u, m).getTime();
     },
   },
 };
