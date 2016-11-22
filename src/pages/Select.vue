@@ -65,7 +65,7 @@ export default {
         this.$set('show', true);
         return;
       }
-      Order.setTime(this.newDate(this.time1), this.newDate(this.time2));
+      Order.setTime(this.time1, this.time2);
       this.$router.go({ name: 'login' });
     },
     comfirm() {
@@ -82,13 +82,11 @@ export default {
       Order.setType(val);
     },
     onLocationChange(val) {
-      console.log(val);
       this.selectedLocation = val;
       Order.setLocation(val);
     },
     onDate1Change(val) {
       this.time1 = this.newDate(val);
-      console.log(this.time1);
     },
     onDate2Change(val) {
       this.time2 = this.newDate(val);
