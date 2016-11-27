@@ -2,6 +2,7 @@ import express from 'express';
 const db = require('sqlite');
 const fs = require('fs');
 
+const WechatApi = require('wechat-api');
 const serverApi = express.Router();
 serverApi.get('/wechat_api', (req, res) => {
   res.send({ wechat_api });
@@ -19,6 +20,11 @@ const initConfig = {
 
 serverApi.get('test', (req, res) => {
   res.send('hahaha')
+})
+
+serverApi.get('jsconfig', (req, res) => {
+  usl = {}
+  req.send()
 })
 
 // serverApi.get('/testapi', async (req, res, next) => {

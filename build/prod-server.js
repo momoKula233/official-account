@@ -6,7 +6,6 @@ const proxyTable = config.prod.proxyTable
 const wechat = require('wechat');
 const bodyParser = require('body-parser');
 const path = require('path');
-const WechatApi = require('wechat-api');
 const WechatOauth = require('wechat-oauth');
 const Payment = require('wechat-pay');
 
@@ -64,7 +63,7 @@ function renderError(sendErrorObj) {
 let wechat_api;
 
 app.use('/wechat', wechat('xjbtoken2333', (req, res, next) => {
-  next()
+  next();
 }))
 
 app.get('/oauth', (req, res, next) => {
