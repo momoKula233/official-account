@@ -12,7 +12,7 @@ const initConfig = {
   appId: "wx818254b4c2b5bb7e",
   mchId: "1403540502",
   notifyUrl: "",
-  pfx: fs.readFileSync("../../opt/apiclient_cert.p12")
+  pfx: fs.readFileSync("./opt/apiclient_cert.p12")
 };
 
 

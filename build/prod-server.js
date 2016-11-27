@@ -1,4 +1,3 @@
-require("babel-register");
 const express = require('express');
 const app = express();
 const config = require('../config')
@@ -24,17 +23,13 @@ const api = new WechatApi(appid, appsecret);
 const client = new WechatOauth(appid, appsecret);
 
 import serverApi from './api';
-
+console.log(serverApi)
 let url;
-app.use(bodyParser.urlencoded({extended: false}));  
-app.use(bodyParser.json());
-
-app.set('views', 'dist/');
 app.set('view engine', 'html');
 app.set('view cache', false);
 
 app.use(logger('dev'));
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'dist'), {'extensions': ['html']}));
@@ -68,28 +63,17 @@ function renderError(sendErrorObj) {
 
 let wechat_api;
 
-app.use('/wechat', (req, res, next) => {
-  //使用wechat-api获取JSconfig
-  var param = {
-    debug: true,
-    jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'],
-    url: 'https://api.wizwork.cn',
-  };
-  api.getJsConfig(param, function (err, result) {
-    if(err) {
-      console.log(err);
-    }
-    wechat_api = result;
-    next();
-  });
-  next();
-})
+app.use('/wechat', wechat('xjbtoken2333', (req, res, next) => {
+  next()
+}))
 
 app.get('/oauth', (req, res, next) => {
   url = client.getAuthorizeURL('https://api.wizwork.cn/select', 'momo233', 'snsapi_base');
   res.redirect(url);
 });
-
+app.get('/test', (req, res, next) => {
+  res.send('test')
+})
 app.get('/home', (req, res, next) => {
   res.render('home');
 })
@@ -120,7 +104,7 @@ app.use('/api', serverApi);
 //   app.use(proxyMiddleware(context, options))
 // })
 
-const port = 8002;
+const port = 8001;
 
 Promise.resolve()
   // First, try connect to the database and update its schema to the latest version 
