@@ -29,7 +29,8 @@
     "vue-resource": "^0.9.3",
     "vue-router": "^0.7.13",
     "wechat": "^2.0.3",
-    "wechat-oauth": "^1.1.1"
+    "wechat-oauth": "^1.1.1",
+    "wechat-pay": "^0.2.4"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",

@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const WechatApi = require('wechat-api');
 const WechatOauth = require('wechat-oauth');
+const Payment = require('wechat-pay');
 
 const Promise = require('bluebird');
 const db = require('sqlite');
@@ -63,107 +64,35 @@ function renderError(sendErrorObj) {
   });
 }
 
-
-
-
-
-const serverApi = express.Router();
 let wechat_api;
 
-// app.use('/', (req, res, next) => {
-//   //使用wechat-api获取JSconfig
-//   var param = {
-//     debug: true,
-//     jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'],
-//     url: 'http://srkfytl.gofriend.me/',
-//   };
-//   /*api.getTicket(function(err,result){ 
-//           console.log(err); 
-//           console.log(result); 
-//   });*/
-//   api.getJsConfig(param, function (err, result) {
-//     if(err) {
-//       console.log(err);
-//     }
-//     wechat_api = result;
-//     next();
-//   });
-//   next();
-// })
+app.use('/wechat', (req, res, next) => {
+  //使用wechat-api获取JSconfig
+  var param = {
+    debug: true,
+    jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'],
+    url: 'https://api.wizwork.cn',
+  };
+  api.getJsConfig(param, function (err, result) {
+    if(err) {
+      console.log(err);
+    }
+    wechat_api = result;
+    next();
+  });
+  next();
+})
 
-app.get('/', (req, res, next) => {
-  url = client.getAuthorizeURL('http://srkfytl.gofriend.me/home', 'momo233', 'snsapi_userinfo');
+app.get('/oauth, (req, res, next) => {
+  url = client.getAuthorizeURL('https://api.wizwork.cn/select', 'momo233', 'snsapi_base');
   res.redirect(url);
 });
 
 app.get('/home', (req, res, next) => {
-  console.log(req.query);
   res.render('home');
 })
 
-serverApi.get('/wechat_api', (req, res) => {
-  res.send({ wechat_api });
-});
-
-serverApi.get('test', (req, res) => {
-  res.send('hahaha')
-})
-
-serverApi.get('/testapi', async (req, res, next) => {
-  try {
-    const company = await db.all('SELECT * FROM COMPANY');
-    res.send({ company });
-  } catch (err) {
-    next(err);
-  }
-})
-
-serverApi.post('/login', async (req, res, next) => {
-  try{
-    const {id, password} = req.body;
-    let q = db.query("SELECT * FROM `company` WHERE `id`='" + id
-      + "' AND `password`='" + password + "'");
-    if (q) {
-      console.log(q);
-      console.log('success');
-    }
-  }
-  catch(err) {
-    next(err);
-  }
-});
-
-
-
-// app.get('/')
-
-
-
 app.use('/api', serverApi);
-
-
-
-// app.use(function(req, res, next) {
-//   var err = new Error('Not Found');
-//   err.status = 404;
-//   next(err);
-// });
-
-
-
-// app.use('/wechat_api', (req, res, next) => {
-//   console.log(api);
-//   res.send({ api, wechat, protypes:api.proptypes });
-//   next();
-// });
-
-// Object.keys(proxyTable).forEach(function (context) {
-//   var options = proxyTable[context]
-//   if (typeof options === 'string') {
-//     options = { target: options }
-//   }
-//   app.use(proxyMiddleware(context, options))
-// })
 
 const port = 5003;
 
