@@ -23,6 +23,8 @@ const [token, appid, EncodingAESKey, appsecret] =
 const api = new WechatApi(appid, appsecret);
 const client = new WechatOauth(appid, appsecret);
 
+import serverApi from './api';
+
 let url;
 app.use(bodyParser.urlencoded({extended: false}));  
 app.use(bodyParser.json());
@@ -83,7 +85,7 @@ app.use('/wechat', (req, res, next) => {
   next();
 })
 
-app.get('/oauth, (req, res, next) => {
+app.get('/oauth', (req, res, next) => {
   url = client.getAuthorizeURL('https://api.wizwork.cn/select', 'momo233', 'snsapi_base');
   res.redirect(url);
 });
