@@ -165,7 +165,7 @@ app.use('/api', serverApi);
 //   app.use(proxyMiddleware(context, options))
 // })
 
-const port = 5003;
+const port = 8002;
 
 Promise.resolve()
   // First, try connect to the database and update its schema to the latest version 
