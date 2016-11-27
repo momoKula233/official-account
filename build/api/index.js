@@ -8,10 +8,10 @@ serverApi.get('/wechat_api', (req, res) => {
 });
 const Payment = require('wechat-pay').Payment;
 const initConfig = {
-  partnerKey: "<partnerkey>",
-  appId: "<appid>",
-  mchId: "<mchid>",
-  notifyUrl: "<notifyurl>",
+  partnerKey: "wizworkwizworkwizworkwizworkwizw",
+  appId: "wx818254b4c2b5bb7e",
+  mchId: "1403540502",
+  notifyUrl: "",
   pfx: fs.readFileSync("../../opt/apiclient_cert.p12")
 };
 
@@ -48,8 +48,8 @@ serverApi.post('/login', async (req, res, next) => {
   }
 });
 
-async function PayIneternal(pride) {
-  return await 
-}
+// async function PayIneternal(pride) {
+//   return await 
+// }
 
 export default serverApi;
