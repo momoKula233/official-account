@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const WechatOauth = require('wechat-oauth');
 const Payment = require('wechat-pay');
-
+const WechatApi = require('wechat-api');
 const Promise = require('bluebird');
 const db = require('sqlite');
 
@@ -22,17 +22,16 @@ const api = new WechatApi(appid, appsecret);
 const client = new WechatOauth(appid, appsecret);
 
 import serverApi from './api';
-console.log(serverApi)
 let url;
 app.set('view engine', 'html');
 app.set('view cache', false);
-
+app.set('views', './dist')
 app.use(logger('dev'));
 // app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'dist'), {'extensions': ['html']}));
 app.engine('html', swig.renderFile);
+app.use(express.static('dist', {'extensions': ['html']}));
 app.use(express.query());
 
 
@@ -66,16 +65,32 @@ app.use('/wechat', wechat('xjbtoken2333', (req, res, next) => {
   next();
 }))
 
+url = client.getAuthorizeURL('https://api.wizwork.cn/internal', 'momo233', 'snsapi_base');
 app.get('/oauth', (req, res, next) => {
-  url = client.getAuthorizeURL('https://api.wizwork.cn/select', 'momo233', 'snsapi_base');
+  console.log(url)
   res.redirect(url);
 });
 app.get('/test', (req, res, next) => {
   res.send('test')
 })
-app.get('/home', (req, res, next) => {
-  res.render('home');
+
+app.get('/internal', (req, res, next) => {
+  console.log(req.query.code, '===========code==========');
+  client.getAccessToken(req.query.code, (err, resault) => {
+    if(err) {
+      console.log(err);
+      next();
+    }
+    console.log(resault, "============openid=======")
+    const openid = resault.data.openid;
+    res.redirect('https://api.wizwork.cn/home?openid='+openid);
+  })
 })
+app.get('/home', (req, res, next) => {
+  console.log(req.query, "===========home==========")
+  res.render('index');
+});
+
 
 app.use('/api', serverApi);
 

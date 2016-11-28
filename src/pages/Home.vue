@@ -71,7 +71,8 @@ export default {
       this.$router.go({ name: 'detail', params: { id: index } });
     },
     goSelect() {
-      this.$router.go({ name: 'select' });
+      console.log(this.$route.query);
+      // this.$router.go({ name: 'select' });
     },
     showCard(index) {
       // console.log(index, this.filter.includes(parseInt(index, 10)));

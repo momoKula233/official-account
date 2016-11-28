@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "babel-node build/dev-server.js",
-    "build": "node build/build.js && node build/pro-server.js",
+    "build": "node build/build.js && babel-node build/prod-server.js",
     "unit": "karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
@@ -91,4 +91,3 @@
     "webpack-merge": "^0.8.3"
   }
 }
-

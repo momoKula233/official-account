@@ -71,7 +71,7 @@ router.afterEach(() => {
 sync(store, router);
 
 router.map({
-  '/': {
+  '/home': {
     name: 'home',
     component: resolve => resolve(Home),
   },
