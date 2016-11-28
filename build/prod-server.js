@@ -67,25 +67,38 @@ app.use('/wechat', wechat('xjbtoken2333', (req, res, next) => {
 
 url = client.getAuthorizeURL('https://api.wizwork.cn/internal', 'momo233', 'snsapi_base');
 app.get('/oauth', (req, res, next) => {
-  console.log(url)
   res.redirect(url);
 });
 app.get('/test', (req, res, next) => {
   res.send('test')
 })
 
+let jsconfig;
 app.get('/internal', (req, res, next) => {
-  console.log(req.query.code, '===========code==========');
   client.getAccessToken(req.query.code, (err, resault) => {
     if(err) {
       console.log(err);
       next();
     }
-    console.log(resault, "============openid=======")
     const openid = resault.data.openid;
     res.redirect('https://api.wizwork.cn/home?openid='+openid);
   })
+  let param = {
+    debug: false,
+    jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'],
+    url: 'https://api.wizwork.cn/oauth'
+  };
+  api.getJsConfig(param, callback);
+  jsconfig = param;
 })
+
+api.get('/jsconfig', (req, res, next) => {
+  if (jsconfig) {
+    res.json(jsconfig)
+  }
+  next();
+})
+
 app.get('/home', (req, res, next) => {
   console.log(req.query, "===========home==========")
   res.render('index');

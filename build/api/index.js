@@ -18,11 +18,11 @@ const initConfig = {
 
 
 
-serverApi.get('test', (req, res) => {
+serverApi.get('/test', (req, res) => {
   res.send('hahaha')
 })
 
-serverApi.get('jsconfig', (req, res) => {
+serverApi.get('/jsconfig', (req, res) => {
   usl = {}
   req.send()
 })
@@ -53,6 +53,24 @@ serverApi.post('/login', async (req, res, next) => {
     next(err);
   }
 });
+
+serverApi.post('/pay', async (req, res, next) => {
+  const {openid, total} = req.body;
+  const order = {
+    body: 'Wizwork',
+    attach: '会议室征用',
+    out_trade_no：'wizwork' + (new Date()),
+    total_fee: total,
+    spbill_create_ip: req.ip,
+    openid,
+    trade_type: 'JAAPI'
+  }
+  payment.getBrandWCPayRequestParams(order, function(err, payargs){
+    if(err) console.log(err);
+    res.json(payargs);
+  });
+})
+
 
 // async function PayIneternal(pride) {
 //   return await 

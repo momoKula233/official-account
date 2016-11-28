@@ -17,9 +17,6 @@
     </group>
     <flexbox class="buttons">
       <flexbox-item>
-        <x-button type="primary" @click="byBank">银联支付</x-button>
-      </flexbox-item>
-      <flexbox-item>
         <x-button type="warn" @click="byWechat">微信支付</x-button>
       </flexbox-item>
     </flexbox>
@@ -29,6 +26,7 @@
 
 <script>
 import { XButton, Flexbox, XInput, FlexboxItem, Toast, Group } from 'vux/src/components';
+import wx from 'weixin-js-sdk'
 // import { Order } from '../data/order';
 
 export default {
@@ -50,6 +48,11 @@ export default {
       price: 0,
     };
   },
+  created() {
+    this.$http.get('/api/jsconfig').then(resp => {
+      console.log(resp);
+    })
+  }
   methods: {
     inputName(val) {
       console.log(val);
@@ -66,8 +69,13 @@ export default {
       if (success) this.$router.go({ name: 'bank' });
     },
     byWechat() {
-      console.log(this.id, this.password);
-      const success = true;
+      this.$http.post('/api/pay', {
+        total: 0.01,
+        openid: localStorage.getItem('OPEN_ID'),
+      }).then(resp => {
+
+      })
+      // const success = true;
       // Order.init();
       if (success) this.$router.go({ name: 'finish' });
     },
