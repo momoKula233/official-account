@@ -59,13 +59,11 @@ export default {
       membersFilter: ALL_LOCATION,
     };
   },
-  // watch: {
-  //   membersFilter: () => {
-  //     const newFilter = ALL_LOCATION.filter((id) => this.typeFilter.includes(id) && this.areaFilter.includes(id) && this.membersFilter.includes(id));
-  //     this.filter = newFilter;
-  //     console.log(this.filter, newFilter);
-  //   },
-  // },
+  created() {
+    this.$http.get('/jsconfig').then(resp => {
+      localStorage.setItem('JSCONFIG', JSON.stringfy(resp));
+    });
+  },
   methods: {
     goToPage(index) {
       this.$router.go({ name: 'detail', params: { id: index } });

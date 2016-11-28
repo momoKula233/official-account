@@ -49,9 +49,7 @@ export default {
     };
   },
   created() {
-    this.$http.get('/api/jsconfig').then(resp => {
-      console.log(resp);
-    });
+    wx.config(localStorage.getItem('JSCONFIG'));
   },
   methods: {
     inputName(val) {
@@ -74,7 +72,8 @@ export default {
         openid: localStorage.getItem('OPEN_ID'),
       }).then(resp => {
         console.log(resp);
-      })
+        wx.chooseWXPay(resp);
+      });
       // const success = true;
       // Order.init();
       if (success) this.$router.go({ name: 'finish' });

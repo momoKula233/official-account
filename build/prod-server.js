@@ -88,9 +88,14 @@ app.get('/internal', (req, res, next) => {
     jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'],
     url: 'https://api.wizwork.cn/oauth'
   };
-  api.getJsConfig(param, callback);
-  jsconfig = param;
-})
+  api.getJsConfig(param, (err, resault)=> {
+    if(err) {
+      console.log(err);
+      next();
+    }
+    jsconfig = resault;
+  });
+});
 
 api.get('/jsconfig', (req, res, next) => {
   if (jsconfig) {
