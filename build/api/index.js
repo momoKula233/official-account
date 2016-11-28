@@ -59,7 +59,7 @@ serverApi.post('/pay', async (req, res, next) => {
   const order = {
     body: 'Wizwork',
     attach: '会议室征用',
-    out_trade_no：'wizwork' + (new Date()),
+    out_trade_no: 'wizwork' + (new Date()),
     total_fee: total,
     spbill_create_ip: req.ip,
     openid,

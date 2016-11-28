@@ -26,7 +26,7 @@
 
 <script>
 import { XButton, Flexbox, XInput, FlexboxItem, Toast, Group } from 'vux/src/components';
-import wx from 'weixin-js-sdk'
+import wx from 'weixin-js-sdk';
 // import { Order } from '../data/order';
 
 export default {
@@ -51,8 +51,8 @@ export default {
   created() {
     this.$http.get('/api/jsconfig').then(resp => {
       console.log(resp);
-    })
-  }
+    });
+  },
   methods: {
     inputName(val) {
       console.log(val);
@@ -73,7 +73,7 @@ export default {
         total: 0.01,
         openid: localStorage.getItem('OPEN_ID'),
       }).then(resp => {
-
+        console.log(resp);
       })
       // const success = true;
       // Order.init();
