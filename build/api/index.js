@@ -12,7 +12,7 @@ const initConfig = {
   partnerKey: "wizworkwizworkwizworkwizworkwizw",
   appId: "wx6323b528baa5d135",
   mchId: "1403540502",
-  notifyUrl: "https://api.wizwork.cn/api/pay/",
+  notifyUrl: "https://api.wizwork.cn/",
   pfx: fs.readFileSync("./opt/apiclient_cert.p12")
 };
 const payment = new Payment(initConfig)
