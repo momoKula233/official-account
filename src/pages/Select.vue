@@ -43,9 +43,6 @@ export default {
     Datetime,
     Toast,
   },
-  ready() {
-    Order.init();
-  },
   data() {
     return {
       type: Type,
@@ -56,6 +53,12 @@ export default {
       date1: '',
       date2: '',
     };
+  },
+  created() {
+    Order.init();
+    this.$http.get('/jsconfig').then(resp => {
+      localStorage.setItem('JSCONFIG', JSON.stringfy(resp));
+    });
   },
   methods: {
     login() {

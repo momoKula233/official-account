@@ -59,11 +59,6 @@ export default {
       membersFilter: ALL_LOCATION,
     };
   },
-  created() {
-    this.$http.get('/jsconfig').then(resp => {
-      localStorage.setItem('JSCONFIG', JSON.stringfy(resp));
-    });
-  },
   methods: {
     goToPage(index) {
       this.$router.go({ name: 'detail', params: { id: index } });
