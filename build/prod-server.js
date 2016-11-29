@@ -18,7 +18,10 @@ const cookieParser = require('cookie-parser');
 const swig = require('swig');
 
 const [token, appid, EncodingAESKey, appsecret] =
-      ['xjbtoken2333', 'wx818254b4c2b5bb7e', '49a35f5b9483e8f0011cf568b69c0d66', '49a35f5b9483e8f0011cf568b69c0d66'];
+      ['xjbtoken2333',
+       'wx6323b528baa5d135',
+       '49a35f5b9483e8f0011cf568b69c0d66',
+       '79ba4ea72694f803e83c60a15770fad4'];
 const api = new WechatApi(appid, appsecret);
 const client = new WechatOauth(appid, appsecret);
 
@@ -99,7 +102,6 @@ app.get('/internal', (req, res, next) => {
     jsconfig = resault;
   });
 });
-
 app.get('/jsconfig', (req, res, next) => {
   if (jsconfig) {
     res.json(jsconfig)

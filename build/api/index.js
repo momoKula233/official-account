@@ -12,10 +12,10 @@ const initConfig = {
   partnerKey: "wizworkwizworkwizworkwizworkwizw",
   appId: "wx6323b528baa5d135",
   mchId: "1403540502",
-  notifyUrl: "",
+  notifyUrl: "https://api.wizwork.cn/oauth",
   pfx: fs.readFileSync("./opt/apiclient_cert.p12")
 };
-
+const payment = new Payment(initConfig);
 
 
 serverApi.get('/test', (req, res) => {
@@ -54,18 +54,19 @@ serverApi.post('/login', async (req, res, next) => {
   }
 });
 
-serverApi.post('/pay', async (req, res, next) => {
+serverApi.post('/pay', (req, res, next) => {
   const {openid, total} = req.body;
-  req.headers["X-Forwarded-For"] || req.headers["x-forwarded-for"]
-    || req.client.remoteAddress 
+  console.log(openid);
+  const ip = req.headers["X-Forwarded-For"] || req.headers["x-forwarded-for"]
+    || req.client.remoteAddress;
   const order = {
     body: 'Wizwork',
     attach: '会议室征用',
     out_trade_no: 'wizwork' + new Date().getTime(),
-    total_fee: total,
-    spbill_create_ip: req.ip,
+    total_fee: 1,
+    spbill_create_ip: '127.0.0.1',
     openid,
-    trade_type: 'JAAPI'
+    trade_type: 'JSAPI'
   }
   payment.getBrandWCPayRequestParams(order, function(err, payargs){
     if(err) console.log(err);

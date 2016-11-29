@@ -26,7 +26,7 @@
 
 <script>
 import { XButton, Flexbox, XInput, FlexboxItem, Toast, Group } from 'vux/src/components';
-// import wx from 'weixin-js-sdk';
+import wx from 'weixin-js-sdk';
 // import { Order } from '../data/order';
 
 export default {
@@ -49,7 +49,9 @@ export default {
     };
   },
   created() {
-    wx.config(localStorage.getItem('JSCONFIG'));
+    console.log(wx);
+    console.log(JSON.parse(localStorage.getItem('JSCONFIG')));
+    wx.config(JSON.parse(localStorage.getItem('JSCONFIG')));
   },
   methods: {
     inputName(val) {
@@ -72,7 +74,9 @@ export default {
         openid: localStorage.getItem('OPEN_ID'),
       }).then(resp => {
         console.log(resp);
-        wx.chooseWXPay(resp);
+        const resault = resp.json();
+        console.log(resault);
+        wx.chooseWXPay(resault);
       });
       // const success = true;
       // Order.init();

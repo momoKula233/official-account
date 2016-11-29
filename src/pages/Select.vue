@@ -57,7 +57,7 @@ export default {
   created() {
     Order.init();
     this.$http.get('/jsconfig').then(resp => {
-      localStorage.setItem('JSCONFIG', JSON.stringfy(resp));
+      localStorage.setItem('JSCONFIG', JSON.stringify(resp.json()));
     });
   },
   methods: {
