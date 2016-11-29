@@ -11,6 +11,7 @@ const Payment = require('wechat-pay');
 const WechatApi = require('wechat-api');
 const Promise = require('bluebird');
 const db = require('sqlite');
+const requestIp = require('request-ip');
 
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
@@ -27,14 +28,14 @@ app.set('view engine', 'html');
 app.set('view cache', false);
 app.set('views', './dist')
 app.use(logger('dev'));
-// app.use(bodyParser.json());
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.engine('html', swig.renderFile);
 app.use(express.static('dist', {'extensions': ['html']}));
 app.use(express.query());
-
-
+app.use(requestIp.mw());
+app.set('trust proxy', true);
 const wechatConfig = {
   token,
   appid,
@@ -70,7 +71,9 @@ app.get('/oauth', (req, res, next) => {
   res.redirect(url);
 });
 app.get('/test', (req, res, next) => {
-  res.send('test')
+  const address = req.clientIp;
+  console.log(address, req.ip);
+  res.json('test')
 })
 
 let jsconfig;
@@ -97,7 +100,7 @@ app.get('/internal', (req, res, next) => {
   });
 });
 
-api.get('/jsconfig', (req, res, next) => {
+app.get('/jsconfig', (req, res, next) => {
   if (jsconfig) {
     res.json(jsconfig)
   }

@@ -26,7 +26,7 @@
 
 <script>
 import { XButton, Flexbox, XInput, FlexboxItem, Toast, Group } from 'vux/src/components';
-import wx from 'weixin-js-sdk';
+// import wx from 'weixin-js-sdk';
 // import { Order } from '../data/order';
 
 export default {
@@ -76,7 +76,7 @@ export default {
       });
       // const success = true;
       // Order.init();
-      if (success) this.$router.go({ name: 'finish' });
+      // if (success) this.$router.go({ name: 'finish' });
     },
   },
 };

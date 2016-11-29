@@ -10,7 +10,7 @@ serverApi.get('/wechat_api', (req, res) => {
 const Payment = require('wechat-pay').Payment;
 const initConfig = {
   partnerKey: "wizworkwizworkwizworkwizworkwizw",
-  appId: "wx818254b4c2b5bb7e",
+  appId: "wx6323b528baa5d135",
   mchId: "1403540502",
   notifyUrl: "",
   pfx: fs.readFileSync("./opt/apiclient_cert.p12")
@@ -56,10 +56,12 @@ serverApi.post('/login', async (req, res, next) => {
 
 serverApi.post('/pay', async (req, res, next) => {
   const {openid, total} = req.body;
+  req.headers["X-Forwarded-For"] || req.headers["x-forwarded-for"]
+    || req.client.remoteAddress 
   const order = {
     body: 'Wizwork',
     attach: '会议室征用',
-    out_trade_no: 'wizwork' + (new Date()),
+    out_trade_no: 'wizwork' + new Date().getTime(),
     total_fee: total,
     spbill_create_ip: req.ip,
     openid,

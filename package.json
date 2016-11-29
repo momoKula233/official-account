@@ -23,6 +23,7 @@
     "eslint-plugin-html": "^1.5.3",
     "morgan": "^1.7.0",
     "request": "^2.74.0",
+    "request-ip": "^1.2.3",
     "sqlite": "^2.2.3",
     "swig": "^1.4.2",
     "vue": "^1.0.21",
