@@ -110,7 +110,6 @@ app.get('/jsconfig', (req, res, next) => {
 })
 
 app.get('/home', (req, res, next) => {
-  console.log(req.query, "===========home==========")
   res.render('index');
 });
 

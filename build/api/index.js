@@ -12,11 +12,10 @@ const initConfig = {
   partnerKey: "wizworkwizworkwizworkwizworkwizw",
   appId: "wx6323b528baa5d135",
   mchId: "1403540502",
-  notifyUrl: "https://api.wizwork.cn/oauth",
+  notifyUrl: "https://api.wizwork.cn/api/pay/",
   pfx: fs.readFileSync("./opt/apiclient_cert.p12")
 };
-const payment = new Payment(initConfig);
-
+const payment = new Payment(initConfig)
 
 serverApi.get('/test', (req, res) => {
   res.send('hahaha')
@@ -56,7 +55,6 @@ serverApi.post('/login', async (req, res, next) => {
 
 serverApi.post('/pay', (req, res, next) => {
   const {openid, total} = req.body;
-  console.log(openid);
   const ip = req.headers["X-Forwarded-For"] || req.headers["x-forwarded-for"]
     || req.client.remoteAddress;
   const order = {
