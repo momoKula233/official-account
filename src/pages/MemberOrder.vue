@@ -24,6 +24,7 @@
 <script>
 import { XButton, Group, Flexbox, FlexboxItem } from 'vux/src/components';
 import { Order } from '../data/order';
+import { store } from '../data/user';
 export default {
   components: {
     XButton,
@@ -32,7 +33,7 @@ export default {
     Group,
   },
   data() {
-    let local = localStorage.getItem('COMPANY');
+    let local = store.get('COMPANY');
     local = JSON.parse(local);
     const { name, rest_time } = local;
     return {

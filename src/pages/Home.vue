@@ -36,6 +36,7 @@
 <script>
 import { Card, XButton, Box, SelectorCenter } from 'vux/src/components';
 import { Location, ALL_LOCATION, TypeOption, AreaOption, MembersOption } from '../data/location';
+import { store } from '../data/user';
 import { Topbar } from '../components';
  /* eslint-disable max-len */
 export default {
@@ -64,7 +65,8 @@ export default {
       this.$router.go({ name: 'detail', params: { id: index } });
     },
     goSelect() {
-      localStorage.setItem('OPEN_ID', this.$route.query.openid);
+      console.log(this.$route.query.openid);
+      store.set('OPEN_ID', this.$route.query.openid);
       this.$router.go({ name: 'select' });
     },
     showCard(index) {

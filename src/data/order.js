@@ -1,3 +1,5 @@
+import { store } from './user';
+
 class OrderData {
   constructor() {
     this.name = '';
@@ -44,7 +46,8 @@ class OrderData {
     this.date = null;
     this.price = null;
     this.type = null;
-    localStorage.setItem('COMPANY', '');
+    store.setItem('COMPANY', '');
+    // localStorage.setItem('COMPANY', '');
   }
 }
 

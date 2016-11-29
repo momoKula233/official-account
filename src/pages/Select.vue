@@ -32,6 +32,7 @@ import { Selector, XButton, Flexbox, FlexboxItem, Group, Datetime,
   Toast } from 'vux/src/components';
 import { Type, Location } from '../data/select';
 import { Order } from '../data/order';
+import { store } from '../data/user';
 
 export default {
   components: {
@@ -57,7 +58,8 @@ export default {
   created() {
     Order.init();
     this.$http.get('/jsconfig').then(resp => {
-      localStorage.setItem('JSCONFIG', JSON.stringify(resp.json()));
+      store.setItem('JSCONFIG', JSON.stringify(resp.json));
+      // localStorage.setItem('JSCONFIG', JSON.stringify(resp.json()));
     });
   },
   methods: {
