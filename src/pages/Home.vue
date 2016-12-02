@@ -60,13 +60,22 @@ export default {
       membersFilter: ALL_LOCATION,
     };
   },
+  ready() {
+    /* eslint-disable */
+    const getURIParameter = (param, asArray) =>
+      document.location.search.substring(1).split('&').reduce((p, c) => {
+        const parts = c.split('=', 2).map(param => decodeURIComponent(param));
+        if(parts.length === 0 || parts[0] != param) return (p instanceof Array) && !asArray ? null : p;
+        return asArray ? p.concat(parts.concat(true)[1]) : parts.concat(true)[1];
+      }, []);
+    store.set('OPEN_ID', getURIParameter('openid'));
+  },
   methods: {
     goToPage(index) {
       this.$router.go({ name: 'detail', params: { id: index } });
     },
     goSelect() {
-      console.log(this.$route.query.openid);
-      store.set('OPEN_ID', this.$route.query.openid);
+      console.log(store.get('OPEN_ID'));
       this.$router.go({ name: 'select' });
     },
     showCard(index) {

@@ -46,7 +46,7 @@ class OrderData {
     this.date = null;
     this.price = null;
     this.type = null;
-    store.setItem('COMPANY', '');
+    store.set('COMPANY', '');
     // localStorage.setItem('COMPANY', '');
   }
 }
