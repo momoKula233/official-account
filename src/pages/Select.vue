@@ -70,7 +70,6 @@ export default {
         this.$set('show', true);
         return;
       }
-      Order.setTime(this.time1, this.time2);
       this.$router.go({ name: 'login' });
     },
     comfirm() {

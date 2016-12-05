@@ -6,37 +6,39 @@ const proxyTable = config.prod.proxyTable
 const wechat = require('wechat');
 const bodyParser = require('body-parser');
 const path = require('path');
-const WechatApi = require('wechat-api');
 const WechatOauth = require('wechat-oauth');
 const Payment = require('wechat-pay');
-
+const WechatApi = require('wechat-api');
 const Promise = require('bluebird');
 const db = require('sqlite');
+const requestIp = require('request-ip');
 
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const swig = require('swig');
 
 const [token, appid, EncodingAESKey, appsecret] =
-      ['xjbtoken2333', 'wx818254b4c2b5bb7e', '49a35f5b9483e8f0011cf568b69c0d66', '49a35f5b9483e8f0011cf568b69c0d66'];
+      ['xjbtoken2333',
+       'wx6323b528baa5d135',
+       '49a35f5b9483e8f0011cf568b69c0d66',
+       '79ba4ea72694f803e83c60a15770fad4'];
 const api = new WechatApi(appid, appsecret);
 const client = new WechatOauth(appid, appsecret);
 
 import serverApi from './api';
-console.log(serverApi)
 let url;
 app.set('view engine', 'html');
 app.set('view cache', false);
-
+app.set('views', './dist')
 app.use(logger('dev'));
-// app.use(bodyParser.json());
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'dist'), {'extensions': ['html']}));
 app.engine('html', swig.renderFile);
+app.use(express.static('dist', {'extensions': ['html']}));
 app.use(express.query());
-
-
+app.use(requestIp.mw());
+app.set('trust proxy', true);
 const wechatConfig = {
   token,
   appid,
@@ -67,33 +69,50 @@ app.use('/wechat', wechat('xjbtoken2333', (req, res, next) => {
   next();
 }))
 
-app.get('/', (req, res, next) => {
-  let param = {
-    debug: true,
-    jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'],
-    url: 'https://api.wizwork.cn/',
-  };
-  api.getJsConfig(param, function (err, result) {
-    if(err) {
-      console.log(err);
-    }
-    wechat_api = result;
-    next();
-  });
-  req.render('index');
-})
-
+url = client.getAuthorizeURL('https://api.wizwork.cn/internal', 'momo233', 'snsapi_base');
 app.get('/oauth', (req, res, next) => {
-  url = client.getAuthorizeURL('https://api.wizwork.cn/select', 'momo233', 'snsapi_base');
   res.redirect(url);
 });
 app.get('/test', (req, res, next) => {
-  console.log(wechat_api);
-  res.send('test')
+  const address = req.clientIp;
+  console.log(address, req.ip);
+  res.json('test')
 })
+
+let jsconfig;
+app.get('/internal', (req, res, next) => {
+  client.getAccessToken(req.query.code, (err, resault) => {
+    if(err) {
+      console.log(err);
+      next();
+    }
+    const openid = resault.data.openid;
+    res.redirect('https://api.wizwork.cn/home?openid='+openid);
+  })
+  let param = {
+    debug: false,
+    jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'],
+    url: 'https://api.wizwork.cn/oauth'
+  };
+  api.getJsConfig(param, (err, resault)=> {
+    if(err) {
+      console.log(err);
+      next();
+    }
+    jsconfig = resault;
+  });
+});
+app.get('/jsconfig', (req, res, next) => {
+  if (jsconfig) {
+    res.json(jsconfig)
+  }
+  next();
+})
+
 app.get('/home', (req, res, next) => {
-  res.render('home');
-})
+  res.render('index');
+});
+
 
 app.use('/api', serverApi);
 
@@ -128,4 +147,3 @@ Promise.resolve()
   .then(() => db.open('./database.db', { Promise }))
   .catch(err => console.error(err.stack))
   .finally(() => app.listen(port, (err) => { console.log("http oppened on " + port) }));
-root@iZbp1iqnrpsdhnslil62j4Z:~/official-account# 

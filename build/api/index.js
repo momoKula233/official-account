@@ -53,7 +53,7 @@ serverApi.post('/login', async (req, res, next) => {
   }
 });
 
-serverApi.post('/pay', (req, res, next) => {
+serverApi.post('/pay', async (req, res, next) => {
   const {openid, total} = req.body;
   const ip = req.headers["X-Forwarded-For"] || req.headers["x-forwarded-for"]
     || req.client.remoteAddress;
@@ -73,12 +73,15 @@ serverApi.post('/pay', (req, res, next) => {
 });
 
 
-serverApi.post('/finish', (req, res, next) => {
-  const { name, location, mobile, price, start, end } = req.body;
-  console.log()
+serverApi.post('/finish', async (req, res, next) => {
+  const { name, location, mobile, price, start, end } = req.body.Order;
+  console.log(req.body);
+  console.log(name, location, mobile, price, start, end)
   try{
-    db.run(`INSERT INTO ORDER VALUES (${name}, ${location}, ${mobile}, ${price}), ${start}, ${end};`)
+    await db.run(`INSERT INTO 'ORDER' VALUES (${name}, ${location}, ${mobile}, ${price}, ?, ?)`, start, end);
+    res.send({success: true});
   } catch(err) {
+    res.send({success: false});
     if (err) console.log(err);
   }
   next();

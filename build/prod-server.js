@@ -10,6 +10,8 @@ const WechatOauth = require('wechat-oauth');
 const Payment = require('wechat-pay');
 const WechatApi = require('wechat-api');
 const Promise = require('bluebird');
+// const sqlite3 = require('sqlite3').verbose();
+// const db = new sqlite3.Database(':memory:');
 const db = require('sqlite');
 const requestIp = require('request-ip');
 

@@ -72,19 +72,19 @@ export default {
         this.$set('show', true);
         return;
       }
-      this.$router.go({ name: 'finish' });
-      // this.$http.post('/api/pay', {
-      //   total: 0.01 * parseInt(Order.price),
-      //   openid: store.get('OPEN_ID'),
-      // }).then(resp => {
-      //   const resault = resp.json();
-      //   /* eslint-disable */
-      //   wx.chooseWXPay(
-      //     Object.assign({}, resault, {success: resp => {
-      //       this.$router.go({ name: 'finish' });
-      //     }})
-      //   );
-      // });
+      // this.$router.go({ name: 'finish' });
+      this.$http.post('/api/pay', {
+        total: 0.01 * parseInt(Order.price),
+        openid: store.get('OPEN_ID'),
+      }).then(resp => {
+        const resault = resp.json();
+        /* eslint-disable */
+        wx.chooseWXPay(
+          Object.assign({}, resault, {success: resp => {
+            this.$router.go({ name: 'finish' });
+          }})
+        );
+      });
     },
   },
 };
