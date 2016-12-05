@@ -53,7 +53,7 @@ export default {
     };
   },
   created() {
-    // wx.config(store.get('JSCONFIG'));
+    wx.config(store.get('JSCONFIG'));
   },
   methods: {
     inputName(val) {
@@ -78,6 +78,7 @@ export default {
         openid: store.get('OPEN_ID'),
       }).then(resp => {
         const resault = resp.json();
+        console.log(resault);
         /* eslint-disable */
         wx.chooseWXPay(
           Object.assign({}, resault, {success: resp => {
