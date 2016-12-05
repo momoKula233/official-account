@@ -67,9 +67,21 @@ serverApi.post('/pay', (req, res, next) => {
     trade_type: 'JSAPI'
   }
   payment.getBrandWCPayRequestParams(order, function(err, payargs){
-    if(err) console.log(err);
+    if(err) return console.log(err);
     res.json(payargs);
   });
+});
+
+
+serverApi.post('/finish', (req, res, next) => {
+  const { name, location, mobile, price, start, end } = req.body;
+  console.log()
+  try{
+    db.run(`INSERT INTO ORDER VALUES (${name}, ${location}, ${mobile}, ${price}), ${start}, ${end};`)
+  } catch(err) {
+    if (err) console.log(err);
+  }
+  next();
 })
 
 

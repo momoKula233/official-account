@@ -9,11 +9,16 @@
 
 <script>
 import { Box, Icon } from 'vux/src/components';
+import { Order } from '../data/order';
 
 export default {
   components: {
     Box,
     Icon,
+  },
+  created() {
+    this.$http.post('/api/finish', { Order });
+    console.log(Order);
   },
 };
 </script>

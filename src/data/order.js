@@ -8,14 +8,17 @@ class OrderData {
     this.type = null;
     this.date = null;
     this.price = null;
+    this.startTime = null;
+    this.endTime = null;
     this.setName = this.setName.bind(this);
     this.setMobile = this.setMobile.bind(this);
     this.setLocation = this.setLocation.bind(this);
     this.setType = this.setType.bind(this);
-    this.setDate = this.setDate.bind(this);
+    // this.setDate = this.setDate.bind(this);
     this.setPrice = this.setPrice.bind(this);
     this.init = this.init.bind(this);
-    this.setTime = this.setTime.bind(this);
+    this.setDateStart = this.setDateStart.bind(this);
+    this.setDateEnd = this.setDateEnd.bind(this);
   }
   setName(name) {
     this.name = name;
@@ -26,18 +29,17 @@ class OrderData {
   setLocation(location) {
     this.location = location;
   }
-  setDate(date) {
-    this.date = date;
+  setDateStart(date) {
+    this.start = date;
+  }
+  setDateEnd(date) {
+    this.end = date;
   }
   setPrice(price) {
     this.price = price;
   }
   setType(type) {
     this.type = type;
-  }
-  setTime(start, end) {
-    this.startTime = start;
-    this.endTime = end;
   }
   init() {
     this.name = '';

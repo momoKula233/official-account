@@ -58,7 +58,7 @@ export default {
   created() {
     Order.init();
     this.$http.get('/jsconfig').then(resp => {
-      store.set('JSCONFIG', JSON.stringify(resp.json));
+      store.set('JSCONFIG', resp.json());
       // localStorage.setItem('JSCONFIG', JSON.stringify(resp.json()));
     });
   },
@@ -75,7 +75,7 @@ export default {
     },
     comfirm() {
       this.isVaild = this.selectedType !== 0 && this.date1 && this.date2 &&
-        this.selectedLocation !== 0;
+        this.selectedLocation !== 0 && this.price;
       if (this.isVaild) {
         this.$router.go({ name: 'order' });
       } else {
@@ -92,6 +92,7 @@ export default {
     },
     onDate1Change(val) {
       this.time1 = this.newDate(val);
+      Order.setDateStart(this.time1);
     },
     onDate2Change(val) {
       this.time2 = this.newDate(val);
@@ -99,16 +100,19 @@ export default {
         this.$set('price', 0);
         return;
       }
-      const pirce = (this.time2 - this.time1) / 3600000;
-      this.$set('price', pirce);
+      const price = (this.time2 - this.time1) / 3600000;
+      Order.setDateEnd(this.time2);
+      Order.setPrice(price);
+      this.$set('price', price);
       // this.price = 100;
     },
     newDate(time) {
-      console.log(time);
+      /* eslint-disable */
       const i = time.substr(0, 4);
-      const o = time.substr(5, 2);
+      const o = parseInt(time.substr(5, 2)) + '';
       const u = time.substr(8, 2);
       const m = time.substr(11, 2);
+      console.log(new Date(i, o, u, m));
       return new Date(i, o, u, m).getTime();
     },
   },

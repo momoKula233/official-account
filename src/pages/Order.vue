@@ -20,15 +20,18 @@
         <x-button type="warn" @click="byWechat">微信支付</x-button>
       </flexbox-item>
     </flexbox>
-    <toast :show.sync="show" type="cancel" :time="1000">支付失败</toast>
+    <toast :show.sync="show" type="cancel" :time="1000">填写有误</toast>
   </div>
 </template>
 
 <script>
+/* eslint-disable */
 import { XButton, Flexbox, XInput, FlexboxItem, Toast, Group } from 'vux/src/components';
 import wx from 'weixin-js-sdk';
-// import { Order } from '../data/order';
+import { Order } from '../data/order';
 import { store } from '../data/user';
+import { Location } from '../data/select';
+// import {}
 
 export default {
   components: {
@@ -41,44 +44,47 @@ export default {
   },
   data() {
     return {
-      username: null,
-      mobile: null,
+      username: '',
+      mobile: '',
       show: false,
-      location: '',
-      date: '',
-      price: 0,
+      location: Location.find(lc => lc.key === Order.location).value,
+      price: Order.price,
+      date: `${this.getDate(Order.start)} - ${this.getDate(Order.end)}`,
     };
   },
   created() {
-    wx.config(JSON.parse(store.get('JSCONFIG')));
+    // wx.config(store.get('JSCONFIG'));
   },
   methods: {
     inputName(val) {
-      console.log(val);
+      Order.setName(val);
+    },
+    getDate(date) {
+      const ndate = new Date(date);
+      const month = ndate.getMonth() ? ndate.getMonth() : 12; 
+      return `${month}月${ndate.getDate()}日${ndate.getHours()}点`
     },
     inputMobile(val) {
-      console.log(val);
-    },
-    byBank() {
-      console.log(this.id, this.password);
-      // const success = false;
-      // if (!success) this.show = true;
-      const success = true;
-      // Order.init();
-      if (success) this.$router.go({ name: 'bank' });
+      Order.setMobile(val);
     },
     byWechat() {
-      this.$http.post('/api/pay', {
-        total: 0.01,
-        openid: localStorage.getItem('OPEN_ID'),
-      }).then(resp => {
-        const resault = resp.json();
-        console.log(resault);
-        wx.chooseWXPay(resault);
-      });
-      // const success = true;
-      // Order.init();
-      // if (success) this.$router.go({ name: 'finish' });
+      if(!this.username.length && !this.mobile.length) {
+        this.$set('show', true);
+        return;
+      }
+      this.$router.go({ name: 'finish' });
+      // this.$http.post('/api/pay', {
+      //   total: 0.01 * parseInt(Order.price),
+      //   openid: store.get('OPEN_ID'),
+      // }).then(resp => {
+      //   const resault = resp.json();
+      //   /* eslint-disable */
+      //   wx.chooseWXPay(
+      //     Object.assign({}, resault, {success: resp => {
+      //       this.$router.go({ name: 'finish' });
+      //     }})
+      //   );
+      // });
     },
   },
 };

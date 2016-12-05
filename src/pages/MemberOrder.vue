@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     pay() {
-      console.log(localStorage.getItem('COMPANY'));
+      console.log(store.get('COMPANY'));
       // const success = true;
       Order.init();
       // if (success) this.$router.go({ name: 'finish' });

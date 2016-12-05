@@ -13,5 +13,8 @@ module.exports = {
     'import/no-unresolved': 0,
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
+  },
+  env: {
+    es6: true
   }
 }

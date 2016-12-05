@@ -38,8 +38,7 @@ export default {
         console.log(resault);
         if (resault.success) {
           const { company } = resault;
-          store.set('COMPANY', JSON.stringify(company));
-          // localStorage.setItem('COMPANY', JSON.stringify(company));
+          store.set('COMPANY', company);
           this.$router.go({ name: 'member_order' });
         } else {
           this.$set('show', true);
