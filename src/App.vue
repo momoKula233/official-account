@@ -51,6 +51,14 @@ img {
   vertical-align: top;
 }
 
+#app .weui_btn_primary {
+  background-color: #3aa1a7;
+}
+
+#app .weui_btn_warn {
+  background-color: #f5c4c8;
+}
+
 /**
 * vue-router transition
 */

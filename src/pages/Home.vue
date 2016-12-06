@@ -3,11 +3,11 @@
     <Topbar></Topbar>
     <div class="map">
       <img src="../images/map.jpg" alt="地图">
-      <a href="#" class="customer-service"></a>
     </div>
+    <a href="#" class="customer-service"></a>
     <div class="action-bar">
       <p class="selector-title">会议室/咖啡位位置</p>
-      <div class="selector-item before-txt">
+      <!--<div class="selector-item before-txt">
         <selector-center placeholder="类型" :options="type" @on-change="onTypeChange"></selector-center>
       </div>
       <div class="selector-item">
@@ -15,7 +15,7 @@
       </div>
       <div class="selector-item">
         <selector-center placeholder="人数" :options="members" @on-change="onMembersChange"></selector-center>
-      </div>
+      </div>-->
     </div>
     <div class="selections">
       <card @click="goToPage(item.id)" v-for="item in Location" :style="{ display: showCard(item.id) }" >
@@ -120,6 +120,13 @@ export default {
   background-color: #f4f4f4;
   overflow-x: scroll;
   height: 100%;
+  position: relative;
+}
+.home-layout .weui_panel {
+  background-color: transparent;
+}
+.home-layout .weui_panel:after {
+  border-bottom: 0;
 }
 .map {
   position: relative;
@@ -131,9 +138,10 @@ export default {
 }
 .customer-service {
   display: block;
-  position: absolute;
+  position: fixed;
   right: 15px;
-  bottom: 15px;
+  top: 160px;
+  z-index: 2;
   width: 106px;
   height: 47px;
   background: url("../images/service.png") no-repeat;
