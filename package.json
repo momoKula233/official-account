@@ -30,6 +30,7 @@
     "vue-resource": "^0.9.3",
     "vue-router": "^0.7.13",
     "wechat": "^2.0.3",
+    "wechat-api": "^1.32.0",
     "wechat-oauth": "^1.1.1",
     "wechat-pay": "^0.2.4",
     "weixin-js-sdk": "^1.0.7"
