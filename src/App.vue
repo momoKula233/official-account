@@ -68,6 +68,9 @@ img {
   animation-duration: 0.5s;
   animation-fill-mode: both;
   backface-visibility: hidden;
+  -webkit-animation-duration: 0.5s;
+  -webkit-animation-fill-mode: both;
+  -webkit-backface-visibility: hidden;
 }
 .vux-pop-out-enter,
 .vux-pop-out-leave,
@@ -80,16 +83,20 @@ img {
 }
 .vux-pop-out-enter {
   animation-name: popInLeft;
+  -webkit-animation-name: popInLeft;
 }
 .vux-pop-out-leave {
   animation-name: popOutRight;
+  -webkit-animation-name: popOutRight;
 }
 .vux-pop-in-enter {
   perspective: 1000;
   animation-name: popInRight;
+  -webkit-animation-name: popInRight;
 }
 .vux-pop-in-leave {
   animation-name: popOutLeft;
+  -webkit-animation-name: popOutLeft;
 }
 @keyframes popInLeft {
   from {
@@ -97,6 +104,14 @@ img {
   }
   to {
     transform: translate3d(0, 0, 0);
+  }
+}
+@-webkit-keyframes popInLeft {
+  from {
+    -webkit-transform: translate3d(-100%, 0, 0);
+  }
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
   }
 }
 @keyframes popOutLeft {
@@ -107,6 +122,14 @@ img {
     transform: translate3d(-100%, 0, 0);
   }
 }
+@-webkit-keyframes popOutLeft {
+  from {
+    -webkit-transform: translate3d(0, 0, 0);
+  }
+  to {
+    -webkit-transform: translate3d(-100%, 0, 0);
+  }
+}
 @keyframes popInRight {
   from {
     transform: translate3d(100%, 0, 0);
@@ -115,12 +138,28 @@ img {
     transform: translate3d(0, 0, 0);
   }
 }
+@-webkit-keyframes popInRight {
+  from {
+    -webkit-transform: translate3d(100%, 0, 0);
+  }
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+  }
+}
 @keyframes popOutRight {
   from {
     transform: translate3d(0, 0, 0);
   }
   to {
     transform: translate3d(100%, 0, 0);
+  }
+}
+@-webkit-keyframes popOutRight {
+  from {
+    -webkit-transform: translate3d(0, 0, 0);
+  }
+  to {
+    -webkit-transform: translate3d(100%, 0, 0);
   }
 }
 </style>
