@@ -18,46 +18,11 @@
       </div>
     </div>
     <div class="selections">
-      <card @click="goToPage(Location[0].id)" v-if="showLocation0">
-        <img slot="header" :src="Location[0].image" style="width:100%;display:block;">
+      <card v-for="item in Location | filterBy myFilter" @click="goToPage(item.id)" track-by="id">
+        <img slot="header" :src="item.image" style="width:100%;display:block;">
         <div slot="content" class="card-content">
-          <p class="location"><span>{{ Location[0].name1 }}</span>{{ Location[0].name2 }}</p>
-          <p class="detail">{{ Location[0].address }}</p>
-        </div>
-      </card>
-      <card @click="goToPage(Location[1].id)" v-if="showLocation1">
-        <img slot="header" :src="Location[1].image" style="width:100%;display:block;">
-        <div slot="content" class="card-content">
-          <p class="location"><span>{{ Location[1].name1 }}</span>{{ Location[1].name2 }}</p>
-          <p class="detail">{{ Location[1].address }}</p>
-        </div>
-      </card>
-      <card @click="goToPage(Location[2].id)" v-if="showLocation2">
-        <img slot="header" :src="Location[2].image" style="width:100%;display:block;">
-        <div slot="content" class="card-content">
-          <p class="location"><span>{{ Location[2].name1 }}</span>{{ Location[2].name2 }}</p>
-          <p class="detail">{{ Location[2].address }}</p>
-        </div>
-      </card>
-      <card @click="goToPage(Location[3].id)" v-if="showLocation3">
-        <img slot="header" :src="Location[3].image" style="width:100%;display:block;">
-        <div slot="content" class="card-content">
-          <p class="location"><span>{{ Location[3].name1 }}</span>{{ Location[3].name2 }}</p>
-          <p class="detail">{{ Location[3].address }}</p>
-        </div>
-      </card>
-      <card @click="goToPage(Location[4].id)" v-if="showLocation4">
-        <img slot="header" :src="Location[4].image" style="width:100%;display:block;">
-        <div slot="content" class="card-content">
-          <p class="location"><span>{{ Location[4].name1 }}</span>{{ Location[4].name2 }}</p>
-          <p class="detail">{{ Location[4].address }}</p>
-        </div>
-      </card>
-      <card @click="goToPage(Location[5].id)" v-if="showLocation5">
-        <img slot="header" :src="Location[5].image" style="width:100%;display:block;">
-        <div slot="content" class="card-content">
-          <p class="location"><span>{{ Location[5].name1 }}</span>{{ Location[5].name2 }}</p>
-          <p class="detail">{{ Location[5].address }}</p>
+          <p class="location"><span>{{ item.name1 }}</span>{{ item.name2 }}</p>
+          <p class="detail">{{ item.address }}</p>
         </div>
       </card>
     </div>
@@ -94,15 +59,6 @@ export default {
       typeFilter: ALL_LOCATION,
       areaFilter: ALL_LOCATION,
       membersFilter: ALL_LOCATION,
-      areaValue: '区域',
-      memberValue: '人数',
-      showLocation0: true,
-      showLocation1: true,
-      showLocation2: true,
-      showLocation3: true,
-      showLocation4: true,
-      showLocation5: true,
-      defaultValue: '',
     };
   },
   ready() {
@@ -133,7 +89,6 @@ export default {
     },
     onTypeChange() {},
     onAreaChange(val) {
-      this.$set('areaValue', val);
       switch (val) {
         case 'xuhui': this.areaFilter = [4, 3, 5]; break;
         case 'putuo': this.areaFilter = [6]; break;
@@ -143,7 +98,6 @@ export default {
       this.filterAll();
     },
     onMembersChange(val) {
-      this.$set('memberValue', val);
       switch (val) {
         case 'twenty': this.membersFilter = [1, 2, 3, 5, 6]; break;
         case 'fifty': this.membersFilter = [1]; break;
@@ -152,15 +106,7 @@ export default {
       this.filterAll();
     },
     filterAll() {
-      const newFilter = [];
-      ALL_LOCATION.forEach((id) => {
-        if (this.areaFilter.includes(id) && this.membersFilter.includes(id)) {
-          newFilter.push(id);
-          this.$set(`showLocation${id-1}`, true);
-        } else {
-          this.$set(`showLocation${id-1}`, false);
-        }
-      });
+      const newFilter = ALL_LOCATION.filter((id) => this.areaFilter.includes(id) && this.membersFilter.includes(id))
       this.filter = newFilter;
     },
   },
