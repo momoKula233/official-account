@@ -46,16 +46,22 @@ export const Location = [
 export const ALL_LOCATION = Array.from({ length: 6 }, (v, k) => k + 1);
 
 export const TypeOption = [
-  { key: ALL_LOCATION, value: '会议室' },
-  { key: ALL_LOCATION, value: '咖啡位' },
+  { key: 'ALL_LOCATION', value: '会议室' },
+  { key: 'ALL_LOCATION', value: '咖啡位' },
 ];
 export const AreaOption = [
-  { key: [4, 3, 5], value: '徐汇' },
-  { key: [6], value: '普陀' },
-  { key: [1, 2], value: '闵行' },
+  { key: 'xuhui', value: '徐汇' },
+  { key: 'putuo', value: '普陀' },
+  { key: 'minhang', value: '闵行' },
+  // { key: [4, 3, 5], value: '徐汇' },
+  // { key: [6], value: '普陀' },
+  // { key: [1, 2], value: '闵行' },
 ];
 export const MembersOption = [
-  { key: ALL_LOCATION, value: '1-8人' },
-  { key: [1, 2, 3, 5, 6], value: '8-20人' },
-  { key: [1], value: '20-50人' },
+  { key: 'ALL_LOCATION', value: '1-8人' },
+  { key: 'twenty', value: '8-20人' },
+  { key: 'fifty', value: '20-50人' },
+  // { key: ALL_LOCATION, value: '1-8人' },
+  // { key: [1, 2, 3, 5, 6], value: '8-20人' },
+  // { key: [1], value: '20-50人' },
 ];
