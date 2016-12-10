@@ -1,5 +1,5 @@
 {
-  "presets": ["es2015"],
-  "plugins": ["transform-runtime", "babel-plugin-transform-async-to-generator"],
+  "presets": ["es2015", "stage-0"],
+  "plugins": ["transform-runtime", "babel-plugin-transform-async-to-generator", "transform-es3-property-literals", "transform-es3-member-expression-literals"],
   "comments": false
 }

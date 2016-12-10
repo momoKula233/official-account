@@ -7,18 +7,18 @@
     <a href="#" class="customer-service"></a>
     <div class="action-bar">
       <p class="selector-title">会议室/咖啡位位置</p>
-      <!--<div class="selector-item before-txt">
-        <selector-center placeholder="类型" :options="type" @on-change="onTypeChange"></selector-center>
+      <div class="selector-item before-txt">
+        <selector placeholder="类型" :options="type" @on-change="onTypeChange"></selector>
       </div>
       <div class="selector-item">
-        <selector-center placeholder="区域" :options="area" @on-change="onAreaChange"></selector-center>
+        <selector placeholder="区域" :options="area" @on-change="onAreaChange"></selector>
       </div>
       <div class="selector-item">
-        <selector-center placeholder="人数" :options="members" @on-change="onMembersChange"></selector-center>
-      </div>-->
+        <selector placeholder="人数" :options="members" @on-change="onMembersChange"></selector>
+      </div>
     </div>
     <div class="selections">
-      <card @click="goToPage(item.id)" v-for="item in Location" :style="{ display: showCard(item.id) }" >
+      <card v-for="item in Location | filterBy myFilter" @click="goToPage(item.id)" track-by="id">
         <img slot="header" :src="item.image" style="width:100%;display:block;">
         <div slot="content" class="card-content">
           <p class="location"><span>{{ item.name1 }}</span>{{ item.name2 }}</p>
@@ -26,6 +26,7 @@
         </div>
       </card>
     </div>
+    <div class="empty-blank" v-if="filter.length == 0"></div>
     <button class="order-btn" @click="goSelect">即刻预定</button>
     <div class="footer">
       <p>© 2016 Wizwork All Rights Reserved. Design by Yuki</p>
@@ -34,7 +35,7 @@
 </template>
 
 <script>
-import { Card, XButton, Box, SelectorCenter } from 'vux/src/components';
+import { Card, XButton, Box, Selector } from 'vux/src/components';
 import { Location, ALL_LOCATION, TypeOption, AreaOption, MembersOption } from '../data/location';
 import { store } from '../data/user';
 import { Topbar } from '../components';
@@ -44,7 +45,7 @@ export default {
     Card,
     XButton,
     Box,
-    SelectorCenter,
+    Selector,
     Topbar,
   },
   data() {
@@ -79,29 +80,34 @@ export default {
       this.$router.go({ name: 'select' });
     },
     showCard(index) {
-      // console.log(index, this.filter.includes(parseInt(index, 10)));
-      if (this.filter.includes(parseInt(index, 10))) return 'block';
-      return 'none';
+      if (this.filter.includes(parseInt(index, 10))) return true;
+      return false;
     },
-    onTypeChange(val) {
-      if (Array.isArray(val)) this.typeFilter = val || ALL_LOCATION;
-      this.filterAll();
+    myFilter(element, i, list) {
+      if (this.filter.includes(parseInt(element.id, 10))) return true;
+      return false;
     },
+    onTypeChange() {},
     onAreaChange(val) {
-      if (Array.isArray(val)) this.areaFilter = val || ALL_LOCATION;
+      switch (val) {
+        case 'xuhui': this.areaFilter = [4, 3, 5]; break;
+        case 'putuo': this.areaFilter = [6]; break;
+        case 'minhang': this.areaFilter = [1, 2]; break;
+        default: this.areaFilter = ALL_LOCATION;
+      }
       this.filterAll();
     },
     onMembersChange(val) {
-      if (Array.isArray(val)) this.membersFilter = val || ALL_LOCATION;
+      switch (val) {
+        case 'twenty': this.membersFilter = [1, 2, 3, 5, 6]; break;
+        case 'fifty': this.membersFilter = [1]; break;
+        default: this.membersFilter = ALL_LOCATION;
+      }
       this.filterAll();
     },
     filterAll() {
-      const newFilter = ALL_LOCATION.filter((id) => this.typeFilter.includes(id) && this.areaFilter.includes(id) && this.membersFilter.includes(id));
+      const newFilter = ALL_LOCATION.filter((id) => this.areaFilter.includes(id) && this.membersFilter.includes(id))
       this.filter = newFilter;
-      // this.Location = Location;
-      // this.Location = this.Location.filter((item) => newFilter.includes(item.id));
-      // this.$set('filter', newFilter);
-      console.log(this.filter);
     },
   },
 };
@@ -119,7 +125,7 @@ export default {
 .home-layout {
   background-color: #f4f4f4;
   overflow-x: scroll;
-  height: 100%;
+  min-height: 100%;
   position: relative;
 }
 .home-layout .weui_panel {
@@ -202,7 +208,7 @@ export default {
   background-color: #3aa1a7;
   border: none;
   display: block;
-  margin: 0 auto 30px auto;
+  margin: 0 auto 90px auto;
   border-radius: 5px;
   color: #FFF;
   font-size: 22px;
@@ -214,16 +220,23 @@ export default {
   outline: none;
 }
 .footer {
-  height: 70px;
-  line-height: 70px;
+  height: 60px;
+  line-height: 60px;
   vertical-align: middle;
   background-color: #333;
   color: #FFF;
   font-size: 10px;
   padding-left: 3%;
   border-bottom: 4px solid #3aa1a7;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 .hide {
   display: none;
+}
+.empty-blank {
+  height: 50px;
 }
 </style>
