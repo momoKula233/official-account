@@ -12,9 +12,6 @@
     <group>
       <p class="padding">使用时段：{{ date }}</p>
     </group>
-    <group>
-      <p class="padding">小计：{{ count }}小时</p>
-    </group>
     <flexbox class="buttons">
       <x-button type="primary" @click="pay">确认扣除</x-button>
     </flexbox>
@@ -33,23 +30,40 @@ export default {
     Group,
   },
   data() {
-    let local = store.get('COMPANY');
-    local = JSON.parse(local);
+    const local = store.get('COMPANY');
     const { name, rest_time } = local;
     return {
       rest_time,
       location: '',
-      date: '',
       count: 0,
       name,
+      date: `${this.getDate(Order.start)} - ${this.getDate(Order.end)}`,
     };
   },
   methods: {
     pay() {
-      console.log(store.get('COMPANY'));
-      // const success = true;
-      Order.init();
-      // if (success) this.$router.go({ name: 'finish' });
+      this.$http.post('/api/pay_by_member', Order).then(resp => {
+        const resault = resp.json();
+        if (resault.invaild) this.$router.go({ name: 'finish' });
+        else {
+          this.$http.post('/api/pay_by_nomal', {
+            total: 0.01 * parseInt(Order.price),
+            openid: store.get('OPEN_ID'),
+          }).then(resp => {
+            const resault = resp.json();
+            wx.chooseWXPay(
+              Object.assign({}, resault, {success: resp => {
+                this.$router.go({ name: 'finish' });
+              }})
+            );
+          });
+        }
+      })
+    },
+    getDate(date) {
+      const ndate = new Date(date);
+      const month = ndate.getMonth() ? ndate.getMonth() : 12;
+      return `${month}月${ndate.getDate()}日${ndate.getHours()}点`;
     },
   },
 };

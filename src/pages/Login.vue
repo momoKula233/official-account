@@ -35,7 +35,6 @@ export default {
       const { id, password } = this;
       this.$http.post('/api/login', { id, password }).then(resp => {
         const resault = resp.json();
-        console.log(resault);
         if (resault.success) {
           const { company } = resault;
           store.set('COMPANY', company);

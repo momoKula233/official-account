@@ -53,7 +53,7 @@ serverApi.post('/login', async (req, res, next) => {
   }
 });
 
-serverApi.post('/pay', async (req, res, next) => {
+serverApi.post('/pay_by_nomal', async (req, res, next) => {
   const {openid, total} = req.body;
   const ip = req.headers["X-Forwarded-For"] || req.headers["x-forwarded-for"]
     || req.client.remoteAddress;
@@ -72,11 +72,80 @@ serverApi.post('/pay', async (req, res, next) => {
   });
 });
 
+serverApi.post('/create_order', async (req, res, next) => {
+  const { start, location, id, end } = req.body;
+  const duration = end - start;
+  const vaild = await checkPayment(start, end, location, type);
+  if(!vaild) {
+    res.send({success: false, invaild: true});
+    next();
+  }
+  try {
+    if (id) {
+      const compResp = await db.run(`select * from 'company' where id = ${id} and rest_time > ?`, );
+      if (compResp) {
+        await db.run(`update 'company' set rest_time = rest_time - ?`, rest_time);
+        res.send({ success: true, invaild: true });
+      } else {
+        res.send({success: false, err: 'invaild_rest_time'});
+      }
+      next();
+      return;
+    } else {
+      res.send({ success: true, invaild: true });
+    }
+    
+  } catch(err) {
+    if (err) console.log(err);
+    res.send({ success: false });
+  }
+});
+
+serverApi.post('/pay_by_member', async (req, res, next) =>{
+  try{
+    const { id, start, end, location, type } = req.body.Order;
+    const compResp = await db.run(`select * from 'company' where id = ${id} and rest_time > ?`, );
+    if(compResp) {
+      await db.run(`update 'company' set rest_time = rest_time - ?`, rest_time);
+      res.send({ success: true, invaild: true });
+    }
+    else  {
+      res.send({ success: true, invaild: false });
+    }
+  } catch(err) {
+    console.log(err);
+  }
+})
+
+serverApi.post('/check', async (req, res, next)=> {
+  const { start, end, location, type } = req.body.Order;
+  try {
+    const resault = await db.run(`select * from 'order' where location = ${location} and type = ${type}
+      and start < ? and end > ?`, start, start);
+    if (resault) res.send({success: true});
+    else res.send({success: false});
+    next();
+  }
+  catch (err) {
+    console.log(err);
+    next();
+  }
+})
+
+async function checkPayment({start, end, location, type}) {
+  let canPay = false;
+  try {
+    resault = await db.run(`select * from 'order' where location = ${location} and type = ${type}
+      and start < ? and end > ?`, start, start);
+      canPay = true;
+  }catch(err) {
+    console.log(err);
+  }
+  return canPay;
+}
 
 serverApi.post('/finish', async (req, res, next) => {
   const { name, location, mobile, price, start, end } = req.body.Order;
-  console.log(req.body);
-  console.log(name, location, mobile, price, start, end)
   try{
     await db.run(`INSERT INTO 'ORDER' VALUES (${name}, ${location}, ${mobile}, ${price}, ?, ?)`, start, end);
     res.send({success: true});

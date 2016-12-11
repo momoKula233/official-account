@@ -4,10 +4,10 @@
       <selector title="类型" placeholder="请选择" :options="type" @on-change="onTypeChange"></selector>
     </group>
     <group class="tip">
-      <datetime :value.sync="date1" month-row="{value}月" day-row="{value}日" hour-row="{value}点" format="YYYY-MM-DD HH" @on-change="onDate1Change" title="开始时间" :min-year=2016></datetime>
+      <datetime :value.sync="date1" month-row="{value}月" day-row="{value}日" hour-row="{value}点" format="YYYY-MM-DD HH:mm" @on-change="onDate1Change" title="开始时间" :min-year=2016></datetime>
     </group>
     <group>
-      <datetime :value.sync="date2" month-row="{value}月" day-row="{value}日" hour-row="{value}点" format="YYYY-MM-DD HH" @on-change="onDate2Change" title="结束时间"></datetime>
+      <datetime :value.sync="date2" month-row="{value}月" day-row="{value}日" hour-row="{value}点" format="YYYY-MM-DD HH:mm" @on-change="onDate2Change" title="结束时间"></datetime>
     </group>
     <group>
       <selector title="地点" placeholder="请选择" :options="location" @on-change="onLocationChange"></selector>
@@ -57,9 +57,8 @@ export default {
   },
   created() {
     Order.init();
-    this.$http.get('/jsconfig').then(resp => {
+    this.$http.get('/api/jsconfig').then(resp => {
       store.set('JSCONFIG', resp.json());
-      // localStorage.setItem('JSCONFIG', JSON.stringify(resp.json()));
     });
   },
   methods: {
@@ -76,7 +75,9 @@ export default {
       this.isVaild = this.selectedType !== 0 && this.date1 && this.date2 &&
         this.selectedLocation !== 0 && this.price;
       if (this.isVaild) {
-        this.$router.go({ name: 'order' });
+        this.$http.post('/api/check', { Order }).then(resp => {
+          if (resp.json().invaild) this.$router.go({ name: 'order' });
+        });
       } else {
         this.$set('show', true);
       }
@@ -107,6 +108,7 @@ export default {
     },
     newDate(time) {
       /* eslint-disable */
+      console.log(time);
       const i = time.substr(0, 4);
       const o = parseInt(time.substr(5, 2)) + '';
       const u = time.substr(8, 2);

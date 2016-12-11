@@ -10,8 +10,6 @@ const WechatOauth = require('wechat-oauth');
 const Payment = require('wechat-pay');
 const WechatApi = require('wechat-api');
 const Promise = require('bluebird');
-// const sqlite3 = require('sqlite3').verbose();
-// const db = new sqlite3.Database(':memory:');
 const db = require('sqlite');
 const requestIp = require('request-ip');
 
@@ -117,30 +115,6 @@ app.get('/home', (req, res, next) => {
 
 
 app.use('/api', serverApi);
-
-
-
-// app.use(function(req, res, next) {
-//   var err = new Error('Not Found');
-//   err.status = 404;
-//   next(err);
-// });
-
-
-
-// app.use('/wechat_api', (req, res, next) => {
-//   console.log(api);
-//   res.send({ api, wechat, protypes:api.proptypes });
-//   next();
-// });
-
-// Object.keys(proxyTable).forEach(function (context) {
-//   var options = proxyTable[context]
-//   if (typeof options === 'string') {
-//     options = { target: options }
-//   }
-//   app.use(proxyMiddleware(context, options))
-// })
 
 const port = 8001;
 
