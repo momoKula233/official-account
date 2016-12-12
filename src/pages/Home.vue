@@ -76,7 +76,6 @@ export default {
       this.$router.go({ name: 'detail', params: { id: index } });
     },
     goSelect() {
-      console.log(store.get('OPEN_ID'));
       this.$router.go({ name: 'select' });
     },
     showCard(index) {
