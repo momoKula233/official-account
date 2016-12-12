@@ -147,7 +147,6 @@ serverApi.post('/finish', async (req, res, next) => {
   req.setEncoding('utf8');
   let { name, location, mobile, price, start, end } = req.body.Order;
   name = name ? name : 'no member';
-  console.log(name, location, mobile, price, start, end)
   try{
     await db.run(`INSERT INTO 'ORDER' VALUES (?, ?, ?, ?, ?, ?)`,name, location, mobile, price, start, end);
     res.send({success: true});

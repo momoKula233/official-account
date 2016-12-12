@@ -72,17 +72,20 @@ export default {
         this.$set('show', true);
         return;
       }
-      this.$http.post('/api/pay_by_nomal', {
-        total: 0.01 * parseInt(Order.price),
-        openid: store.get('OPEN_ID'),
-      }).then(resp => {
-        const resault = resp.json();
-        wx.chooseWXPay(
-          Object.assign({}, resault, {success: resp => {
-            this.$router.go({ name: 'finish' });
-          }})
-        );
-      });
+      // payment
+      // this.$http.post('/api/pay_by_nomal', {
+      //   total: 0.01 * parseInt(Order.price),
+      //   openid: store.get('OPEN_ID'),
+      // }).then(resp => {
+      //   const resault = resp.json();
+      //   wx.chooseWXPay(
+      //     Object.assign({}, resault, {success: resp => {
+      //       this.$router.go({ name: 'finish' });
+      //     }})
+      //   );
+      // });
+      // payment
+      this.$router.go({ name: 'finish' });
     },
   },
 };

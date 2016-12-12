@@ -44,12 +44,11 @@ export default {
   },
   methods: {
     pay() {
-      this.$http.post('/api/pay_by_member', Order).then(resp => {
+      this.$http.post('/api/pay_by_member', { Order }).then(resp => {
         const resault = resp.json();
         if (resault.invaild) this.$router.go({ name: 'finish' });
         else {
           this.$http.post('/api/pay_by_nomal', {
-            /* eslint-disable */
             total: 0.01 * parseInt(Order.price),
             openid: store.get('OPEN_ID'),
           }).then(resp => {

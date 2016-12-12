@@ -69,14 +69,18 @@ export default {
         this.$set('show', true);
         return;
       }
-      this.$router.go({ name: 'login' });
+      this.$http.post('/api/check', { Order }).then(resp => {
+        if (!resp.json().success) this.$set('show', true);
+        else this.$router.go({ name: 'login' });
+      });
     },
     comfirm() {
       this.isVaild = this.selectedType !== 0 && this.date1 && this.date2 &&
         this.selectedLocation !== 0 && this.price;
       if (this.isVaild) {
         this.$http.post('/api/check', { Order }).then(resp => {
-          if (resp.json().invaild) this.$router.go({ name: 'order' });
+          if (!resp.json().success) this.$set('show', true);
+          else this.$router.go({ name: 'order' });
         });
       } else {
         this.$set('show', true);
