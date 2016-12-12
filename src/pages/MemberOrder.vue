@@ -43,6 +43,7 @@ export default {
     };
   },
   methods: {
+    /* eslint-disable */
     pay() {
       this.$http.post('/api/pay_by_member', { Order }).then(resp => {
         const resault = resp.json();
