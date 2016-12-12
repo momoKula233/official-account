@@ -54,13 +54,14 @@ serverApi.post('/login', async (req, res, next) => {
 
 serverApi.post('/pay_by_nomal', async (req, res, next) => {
   const {openid, total} = req.body;
+  console.log(total);
   const ip = req.headers["X-Forwarded-For"] || req.headers["x-forwarded-for"]
     || req.client.remoteAddress;
   const order = {
     body: 'Wizwork',
     attach: '会议室征用',
     out_trade_no: 'wizwork' + new Date().getTime(),
-    total_fee: total,
+    total_fee: 0.1,
     spbill_create_ip: '127.0.0.1',
     openid,
     trade_type: 'JSAPI'
@@ -103,7 +104,7 @@ serverApi.post('/create_order', async (req, res, next) => {
 serverApi.post('/pay_by_member', async (req, res, next) =>{
   try{
     const { id, start, end, location, type } = req.body.Order;
-    const compResp = await db.run(`select * from 'company' where id = ${id} and rest_time > ?`, );
+    const compResp = await db.get(`select * from 'company' where id = ${id} and rest_time > ?`, );
     if(compResp) {
       await db.run(`update 'company' set rest_time = rest_time - ?`, rest_time);
       res.send({ success: true, invaild: true });
@@ -119,8 +120,9 @@ serverApi.post('/pay_by_member', async (req, res, next) =>{
 serverApi.post('/check', async (req, res, next)=> {
   const { start, end, location, type } = req.body.Order;
   try {
-    const resault = await db.run(`select * from 'order' where location = ${location} and type = ${type}
+    const resault = await db.get(`select * from 'order' where location = ${location} and type = ${type}
       and start < ? and end > ?`, start, start);
+    console.log(resault);
     if (!resault) res.send({success: true});
     else res.send({success: false});
     next();
@@ -145,10 +147,10 @@ async function checkPayment({start, end, location, type}) {
 
 serverApi.post('/finish', async (req, res, next) => {
   req.setEncoding('utf8');
-  let { name, location, mobile, price, start, end } = req.body.Order;
+  let { name, location, mobile, price, start, end, type } = req.body.Order;
   name = name ? name : 'no member';
   try{
-    await db.run(`INSERT INTO 'ORDER' VALUES (?, ?, ?, ?, ?, ?)`,name, location, mobile, price, start, end);
+    await db.run(`INSERT INTO 'ORDER' VALUES (?, ?, ?, ?, ?, ?, ?)`,name, location, mobile, price, start, end, type);
     res.send({success: true});
   } catch(err) {
     res.send({success: false});

@@ -53,7 +53,7 @@ export default {
     };
   },
   created() {
-    // wx.config(store.get('JSCONFIG'));
+     wx.config(store.get('JSCONFIG'));
   },
   methods: {
     inputName(val) {
@@ -86,7 +86,7 @@ export default {
         );
       });
       // payment
-      this.$router.go({ name: 'finish' });
+     // this.$router.go({ name: 'finish' });
     },
   },
 };
