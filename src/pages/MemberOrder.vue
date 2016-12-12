@@ -32,8 +32,10 @@ export default {
     Group,
   },
   data() {
+    /* eslint-disable */
     const local = store.get('COMPANY');
-    const { name, rest_time, start, end } = local;
+    const { name, id } = local;
+    const { start, end } = Order;
     const duration = (end - start) / 3600000;
     Order.setId(id);
     Order.setDuration(duration);
