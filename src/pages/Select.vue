@@ -57,7 +57,7 @@ export default {
   },
   created() {
     Order.init();
-    this.$http.get('/api/jsconfig').then(resp => {
+    this.$http.get('/jsconfig').then(resp => {
       store.set('JSCONFIG', resp.json());
     });
   },
