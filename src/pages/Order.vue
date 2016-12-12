@@ -17,7 +17,7 @@
     </group>
     <flexbox class="buttons">
       <flexbox-item>
-        <x-button type="warn" @click="byWechat">微信支付</x-button>
+        <x-button type="primary" @click="byWechat">微信支付</x-button>
       </flexbox-item>
     </flexbox>
     <toast :show.sync="show" type="cancel" :time="1000">填写有误</toast>
@@ -31,7 +31,6 @@ import wx from 'weixin-js-sdk';
 import { Order } from '../data/order';
 import { store } from '../data/user';
 import { Location } from '../data/select';
-// import {}
 
 export default {
   components: {

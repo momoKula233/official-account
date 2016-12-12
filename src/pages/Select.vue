@@ -79,7 +79,7 @@ export default {
         this.selectedLocation !== 0 && this.price;
       if (this.isVaild) {
         this.$http.post('/api/check', { Order }).then(resp => {
-          if (!resp.json().success) this.$set('show', true);
+          if (!resp.json().success) alert('该会议室已经被占用，请重新选择');
           else this.$router.go({ name: 'order' });
         });
       } else {
@@ -97,9 +97,18 @@ export default {
     onDate1Change(val) {
       this.time1 = this.newDate(val);
       Order.setDateStart(this.time1);
+      if(this.time2) {
+        if (this.time2 - this.time1 <= 0) {
+          this.$set('price', 0);
+          return;
+        }
+        const price = (this.time2 - this.time1) / 3600000;
+        Order.setDateEnd(this.time2);
+        Order.setPrice(price);
+      this.$set('price', price);
+      }
     },
     onDate2Change(val) {
-      if (!this.time1) return;
       this.time2 = this.newDate(val);
       if (this.time2 - this.time1 <= 0) {
         this.$set('price', 0);
