@@ -97,7 +97,7 @@ export default {
     onDate1Change(val) {
       this.time1 = this.newDate(val);
       Order.setDateStart(this.time1);
-      if(this.time2) {
+      if (this.time2) {
         if (this.time2 - this.time1 <= 0) {
           this.$set('price', 0);
           return;
@@ -105,7 +105,7 @@ export default {
         const price = (this.time2 - this.time1) / 3600000;
         Order.setDateEnd(this.time2);
         Order.setPrice(price);
-      this.$set('price', price);
+        this.$set('price', price);
       }
     },
     onDate2Change(val) {
