@@ -35,6 +35,7 @@ export default {
     const local = store.get('COMPANY');
     const { name, rest_time, id } = local;
     Order.setId(id);
+    Order.setRestTime(rest_time);
     return {
       rest_time,
       location: '',
@@ -42,6 +43,9 @@ export default {
       name,
       date: `${this.getDate(Order.start)} - ${this.getDate(Order.end)}`,
     };
+  },
+  created() {
+     wx.config(store.get('JSCONFIG'));
   },
   methods: {
     /* eslint-disable */
