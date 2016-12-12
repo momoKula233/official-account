@@ -61,7 +61,7 @@ serverApi.post('/pay_by_nomal', async (req, res, next) => {
     body: 'Wizwork',
     attach: '会议室征用',
     out_trade_no: 'wizwork' + new Date().getTime(),
-    total_fee: 0.1,
+    total_fee: total,
     spbill_create_ip: '127.0.0.1',
     openid,
     trade_type: 'JSAPI'
