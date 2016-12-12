@@ -75,7 +75,7 @@ export default {
       /* eslint-disable */
       // payment
       this.$http.post('/api/pay_by_nomal', {
-        total: 0.01 * parseInt(Order.price),
+        total: 0.1 * parseInt(Order.price),
         openid: store.get('OPEN_ID'),
       }).then(resp => {
         const resault = resp.json();

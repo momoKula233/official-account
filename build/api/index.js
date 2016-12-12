@@ -121,7 +121,7 @@ serverApi.post('/check', async (req, res, next)=> {
   try {
     const resault = await db.run(`select * from 'order' where location = ${location} and type = ${type}
       and start < ? and end > ?`, start, start);
-    if (resault) res.send({success: true});
+    if (!resault) res.send({success: true});
     else res.send({success: false});
     next();
   }

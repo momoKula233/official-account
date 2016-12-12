@@ -99,6 +99,7 @@ export default {
       Order.setDateStart(this.time1);
     },
     onDate2Change(val) {
+      if(!this.time1) return;
       this.time2 = this.newDate(val);
       if (this.time2 - this.time1 <= 0) {
         this.$set('price', 0);
