@@ -45,7 +45,7 @@ export default {
     };
   },
   created() {
-     wx.config(store.get('JSCONFIG'));
+    wx.config(store.get('JSCONFIG'));
   },
   methods: {
     /* eslint-disable */

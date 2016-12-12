@@ -73,9 +73,10 @@ serverApi.post('/pay_by_nomal', async (req, res, next) => {
 
 serverApi.post('/pay_by_member', async (req, res, next) =>{
   try{
-    const { id, start, end, location, type } = req.body.Order;
-    console.log(id, start, end, location, type);
-    const compResp = await db.get(`select * from 'company' where id = ${id} and rest_time > ?`, );
+    const { id, start, end, location, type, rest_time } = req.body.Order;
+    console.log(id, start, end, location, type, rest_time);
+    const compResp = await db.get(`select * from 'company' where id = ${id} and rest_time > ?`, parseInt(rest_time, 10));
+    console.log(compResp);
     if(compResp) {
       await db.run(`update 'company' set rest_time = rest_time - ?`, rest_time);
       res.send({ success: true, invaild: true });
