@@ -10,6 +10,7 @@ class OrderData {
     this.price = null;
     this.startTime = null;
     this.endTime = null;
+    this.id = null;
     this.setName = this.setName.bind(this);
     this.setMobile = this.setMobile.bind(this);
     this.setLocation = this.setLocation.bind(this);
@@ -19,9 +20,13 @@ class OrderData {
     this.init = this.init.bind(this);
     this.setDateStart = this.setDateStart.bind(this);
     this.setDateEnd = this.setDateEnd.bind(this);
+    this.setId = this.setId.bind(this);
   }
   setName(name) {
     this.name = name;
+  }
+  setId(id) {
+    this.id = id;
   }
   setMobile(mobile) {
     this.mobile = mobile;

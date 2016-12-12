@@ -54,7 +54,6 @@ serverApi.post('/login', async (req, res, next) => {
 
 serverApi.post('/pay_by_nomal', async (req, res, next) => {
   const {openid, total} = req.body;
-  console.log(total);
   const ip = req.headers["X-Forwarded-For"] || req.headers["x-forwarded-for"]
     || req.client.remoteAddress;
   const order = {
@@ -72,38 +71,10 @@ serverApi.post('/pay_by_nomal', async (req, res, next) => {
   });
 });
 
-serverApi.post('/create_order', async (req, res, next) => {
-  const { start, location, id, end } = req.body;
-  const duration = end - start;
-  const vaild = await checkPayment(start, end, location, type);
-  if(!vaild) {
-    res.send({success: false, invaild: true});
-    next();
-  }
-  try {
-    if (id) {
-      const compResp = await db.run(`select * from 'company' where id = ${id} and rest_time > ?`, );
-      if (compResp) {
-        await db.run(`update 'company' set rest_time = rest_time - ?`, rest_time);
-        res.send({ success: true, invaild: true });
-      } else {
-        res.send({success: false, err: 'invaild_rest_time'});
-      }
-      next();
-      return;
-    } else {
-      res.send({ success: true, invaild: true });
-    }
-    
-  } catch(err) {
-    if (err) console.log(err);
-    res.send({ success: false });
-  }
-});
-
 serverApi.post('/pay_by_member', async (req, res, next) =>{
   try{
     const { id, start, end, location, type } = req.body.Order;
+    console.log(id, start, end, location, type);
     const compResp = await db.get(`select * from 'company' where id = ${id} and rest_time > ?`, );
     if(compResp) {
       await db.run(`update 'company' set rest_time = rest_time - ?`, rest_time);
@@ -119,9 +90,10 @@ serverApi.post('/pay_by_member', async (req, res, next) =>{
 
 serverApi.post('/check', async (req, res, next)=> {
   const { start, end, location, type } = req.body.Order;
+  console.log(start, end, location, type)
   try {
-    const resault = await db.get(`select * from 'order' where location = ${location} and type = ${type}
-      and start < ? and end > ?`, start, start);
+    const resault = await db.get(`SELECT * FROM 'ORDER' WHERE LOCATION = ${location} AND TYPE = ${type}
+      AND START < ? AND END > ?`, start, start);
     console.log(resault);
     if (!resault) res.send({success: true});
     else res.send({success: false});

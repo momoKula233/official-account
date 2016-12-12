@@ -33,7 +33,8 @@ export default {
   },
   data() {
     const local = store.get('COMPANY');
-    const { name, rest_time } = local;
+    const { name, rest_time, id } = local;
+    Order.setId(id);
     return {
       rest_time,
       location: '',
@@ -50,7 +51,7 @@ export default {
         if (resault.invaild) this.$router.go({ name: 'finish' });
         else {
           this.$http.post('/api/pay_by_nomal', {
-            total: 0.01 * parseInt(Order.price),
+            total: parseInt(Order.price),
             openid: store.get('OPEN_ID'),
           }).then(resp => {
             const resault = resp.json();
