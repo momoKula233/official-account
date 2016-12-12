@@ -12,7 +12,7 @@ const initConfig = {
   partnerKey: "wizworkwizworkwizworkwizworkwizw",
   appId: "wx6323b528baa5d135",
   mchId: "1403540502",
-  notifyUrl: "https://api.wizwork.cn/",
+  notifyUrl: "https://api.wizwork.cn/api/test",
   pfx: fs.readFileSync("./opt/apiclient_cert.p12")
 };
 const payment = new Payment(initConfig)
@@ -60,7 +60,7 @@ serverApi.post('/pay_by_nomal', async (req, res, next) => {
     body: 'Wizwork',
     attach: '会议室征用',
     out_trade_no: 'wizwork' + new Date().getTime(),
-    total_fee: parseInt(total, 10) * 0.01,
+    total_fee: total,
     spbill_create_ip: '127.0.0.1',
     openid,
     trade_type: 'JSAPI'
@@ -144,9 +144,12 @@ async function checkPayment({start, end, location, type}) {
 }
 
 serverApi.post('/finish', async (req, res, next) => {
-  const { name, location, mobile, price, start, end } = req.body.Order;
+  req.setEncoding('utf8');
+  let { name, location, mobile, price, start, end } = req.body.Order;
+  name = name ? name : 'no member';
+  console.log(name, location, mobile, price, start, end)
   try{
-    await db.run(`INSERT INTO 'ORDER' VALUES (${name}, ${location}, ${mobile}, ${price}, ?, ?)`, start, end);
+    await db.run(`INSERT INTO 'ORDER' VALUES (?, ?, ?, ?, ?, ?)`,name, location, mobile, price, start, end);
     res.send({success: true});
   } catch(err) {
     res.send({success: false});
