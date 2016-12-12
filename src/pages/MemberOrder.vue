@@ -34,7 +34,7 @@ export default {
   data() {
     /* eslint-disable */
     const local = store.get('COMPANY');
-    const { name, id } = local;
+    const { name, id, rest_time } = local;
     const { start, end } = Order;
     const duration = (end - start) / 3600000;
     Order.setId(id);

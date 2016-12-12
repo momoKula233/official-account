@@ -65,14 +65,14 @@ export default {
     login() {
       this.isVaild = this.selectedType !== 0 && this.date1 && this.date2 &&
         this.selectedLocation !== 0;
-      if (!this.isVaild) {
+      if (this.isVaild) {
+        this.$http.post('/api/check', { Order }).then(resp => {
+          if (!resp.json().success) alert('该会议室已经被占用，请重新选择');
+          else this.$router.go({ name: 'login' });
+        });
+      } else {
         this.$set('show', true);
-        return;
       }
-      this.$http.post('/api/check', { Order }).then(resp => {
-        if (!resp.json().success) this.$set('show', true);
-        else this.$router.go({ name: 'login' });
-      });
     },
     comfirm() {
       this.isVaild = this.selectedType !== 0 && this.date1 && this.date2 &&
