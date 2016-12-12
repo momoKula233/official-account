@@ -16,7 +16,6 @@ const initConfig = {
   pfx: fs.readFileSync("./opt/apiclient_cert.p12")
 };
 const payment = new Payment(initConfig)
-
 serverApi.get('/test', (req, res) => {
   res.send('hahaha')
 })

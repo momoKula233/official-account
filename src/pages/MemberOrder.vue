@@ -22,6 +22,8 @@
 import { XButton, Group, Flexbox, FlexboxItem } from 'vux/src/components';
 import { Order } from '../data/order';
 import { store } from '../data/user';
+import wx from 'weixin-js-sdk';
+
 export default {
   components: {
     XButton,
@@ -47,6 +49,7 @@ export default {
         if (resault.invaild) this.$router.go({ name: 'finish' });
         else {
           this.$http.post('/api/pay_by_nomal', {
+            /* eslint-disable */
             total: 0.01 * parseInt(Order.price),
             openid: store.get('OPEN_ID'),
           }).then(resp => {
