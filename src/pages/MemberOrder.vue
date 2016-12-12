@@ -33,9 +33,10 @@ export default {
   },
   data() {
     const local = store.get('COMPANY');
-    const { name, rest_time, id } = local;
+    const { name, rest_time, start, end } = local;
+    const duration = (end - start) / 3600000;
     Order.setId(id);
-    Order.setRestTime(rest_time);
+    Order.setDuration(duration);
     return {
       rest_time,
       location: '',

@@ -21,7 +21,7 @@ class OrderData {
     this.setDateStart = this.setDateStart.bind(this);
     this.setDateEnd = this.setDateEnd.bind(this);
     this.setId = this.setId.bind(this);
-    this.setRestTime = this.setRestTime.bind(this);
+    this.setDuration = this.setDuration.bind(this);
   }
   setName(name) {
     this.name = name;
@@ -47,8 +47,8 @@ class OrderData {
   setType(type) {
     this.type = type;
   }
-  setRestTime(time) {
-    this.rest_time = time;
+  setDuration(time) {
+    this.duration = time;
   }
   init() {
     this.name = '';
@@ -58,7 +58,7 @@ class OrderData {
     this.price = null;
     this.type = null;
     store.set('COMPANY', '');
-    this.rest_time = null;
+    this.duration = null;
     this.id = null;
     // localStorage.setItem('COMPANY', '');
   }
