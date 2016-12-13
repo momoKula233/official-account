@@ -56,7 +56,7 @@ img {
 }
 
 #app .weui_btn_warn {
-  background-color: #f5c4c8;
+  background-color: #fd942e;
 }
 
 /**
