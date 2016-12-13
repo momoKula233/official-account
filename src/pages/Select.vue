@@ -4,10 +4,10 @@
       <selector title="类型" placeholder="请选择" :options="type" @on-change="onTypeChange"></selector>
     </group>
     <group class="tip">
-      <datetime :value.sync="date1" month-row="{value}月" day-row="{value}日" hour-row="{value}点" format="YYYY-MM-DD HH:mm" @on-change="onDate1Change" title="开始时间" :min-year=2016></datetime>
+      <datetime :value.sync="date1" month-row="{value}月" day-row="{value}日" hour-row="{value}点" minute-row="{value}分" format="YYYY-MM-DD HH:mm" @on-change="onDate1Change" title="开始时间" :min-year=2016></datetime>
     </group>
     <group>
-      <datetime :value.sync="date2" month-row="{value}月" day-row="{value}日" hour-row="{value}点" format="YYYY-MM-DD HH:mm" @on-change="onDate2Change" title="结束时间"></datetime>
+      <datetime :value.sync="date2" month-row="{value}月" day-row="{value}日" hour-row="{value}点" minute-row="{value}分" format="YYYY-MM-DD HH:mm" @on-change="onDate2Change" title="结束时间"></datetime>
     </group>
     <group>
       <selector title="地点" placeholder="请选择" :options="location" @on-change="onLocationChange"></selector>
