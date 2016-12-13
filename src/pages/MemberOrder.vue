@@ -21,6 +21,7 @@
 <script>
 import { XButton, Group, Flexbox, FlexboxItem } from 'vux/src/components';
 import { Order } from '../data/order';
+import { Location } from '../data/select';
 import { store } from '../data/user';
 import wx from 'weixin-js-sdk';
 
@@ -49,6 +50,8 @@ export default {
   },
   created() {
     wx.config(store.get('JSCONFIG'));
+    const locationName = Order.location && Location[Order.location - 1].value;
+    this.$set('location', locationName);
   },
   methods: {
     /* eslint-disable */

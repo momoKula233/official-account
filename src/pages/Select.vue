@@ -10,17 +10,17 @@
       <datetime :value.sync="date2" month-row="{value}月" day-row="{value}日" hour-row="{value}点" minute-row="{value}分" format="YYYY-MM-DD HH:mm" @on-change="onDate2Change" title="结束时间"></datetime>
     </group>
     <group>
-      <selector title="地点" placeholder="请选择" :options="location" @on-change="onLocationChange"></selector>
+      <selector :value.sync="selectedLocation" title="地点" :options="location" placeholder="请选择" @on-change="onLocationChange"></selector>
     </group>
     <group>
       <p class="price">价格：{{ price }}元</p>
     </group>
     <flexbox class="buttons">
       <flexbox-item>
-        <x-button type="primary" @click="comfirm">现在支付</x-button>
+        <x-button type="primary" @click="comfirm">即刻预订</x-button>
       </flexbox-item>
       <flexbox-item>
-        <x-button type="warn" @click="login">会员支付</x-button>
+        <x-button type="warn" @click="login">会员通道</x-button>
       </flexbox-item>
     </flexbox>
     <toast :show.sync="show" type="cancel" :time="1000">订单填写有误</toast>
@@ -49,14 +49,14 @@ export default {
       type: Type,
       location: Location,
       selectedType: 0,
-      selectedLocation: 0,
+      selectedLocation: null,
       price: 0,
       date1: '',
       date2: '',
     };
   },
   created() {
-    Order.init();
+    this.initLocation(Order.location);
     this.$http.get('/jsconfig').then(resp => {
       store.set('JSCONFIG', resp.json());
     });
@@ -90,8 +90,13 @@ export default {
       this.selectedType = val;
       Order.setType(val);
     },
+    initLocation(id) {
+      if (id) {
+        this.$set('selectedLocation', id);
+      }
+    },
     onLocationChange(val) {
-      this.selectedLocation = val;
+      this.$set('selectedLocation', val);
       Order.setLocation(val);
     },
     onDate1Change(val) {

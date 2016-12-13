@@ -39,6 +39,7 @@ import { Card, XButton, Box, Selector } from 'vux/src/components';
 import { Location, ALL_LOCATION, TypeOption, AreaOption, MembersOption } from '../data/location';
 import { store } from '../data/user';
 import { Topbar } from '../components';
+import { Order } from '../data/order';
  /* eslint-disable max-len */
 export default {
   components: {
@@ -76,6 +77,7 @@ export default {
       this.$router.go({ name: 'detail', params: { id: index } });
     },
     goSelect() {
+      Order.init();
       this.$router.go({ name: 'select' });
     },
     showCard(index) {

@@ -158,6 +158,7 @@
 <script>
 import { XButton, Flexbox, FlexboxItem } from 'vux/src/components';
 import { Topbar } from '../components';
+import { Order } from '../data/order';
 export default {
   components: {
     XButton,
@@ -172,6 +173,7 @@ export default {
   },
   methods: {
     goSelect() {
+      Order.setLocation(this.$route.params.id);
       this.$router.go({ name: 'select' });
     },
   },
