@@ -173,7 +173,7 @@ export default {
   },
   methods: {
     goSelect() {
-      Order.setLocation(`${this.$route.params.id}`);
+      Order.setLocation(this.$route.params.id);
       this.$router.go({ name: 'select' });
     },
   },

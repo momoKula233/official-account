@@ -50,7 +50,7 @@ export default {
   },
   created() {
     wx.config(store.get('JSCONFIG'));
-    const locationName = Order.location && Location[parseInt(Order.location, 10) - 1].value;
+    const locationName = Order.location && Location[Order.location - 1].value;
     this.$set('location', locationName);
   },
   methods: {

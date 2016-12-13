@@ -92,7 +92,7 @@ export default {
     },
     initLocation(id) {
       if (id) {
-        this.$set('selectedLocation', `${id}`);
+        this.$set('selectedLocation', id);
       }
     },
     onLocationChange(val) {
