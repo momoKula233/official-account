@@ -2,7 +2,7 @@ import Vue from 'vue';
 import App from './App';
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
-// import 'babel-polyfill';
+import 'babel-polyfill';
 
 
 import Home from './pages/Home';

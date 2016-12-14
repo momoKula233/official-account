@@ -144,7 +144,7 @@
       <div class="line"></div>
       <div class="tip-detail">
         <i class="fa fa-check-circle"></i>
-        <span>预订成功后将收到二维码，请提前至少10分钟到达中心向秘书出示确认信息</span>
+        <span>会议开始前，请提前至少10分钟到达中心与秘书确认信息</span>
       </div>
       <div class="tip-detail">
         <i class="fa fa-check-circle"></i>

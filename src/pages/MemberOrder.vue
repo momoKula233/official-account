@@ -77,7 +77,8 @@ export default {
     getDate(date) {
       const ndate = new Date(date);
       const month = ndate.getMonth() ? ndate.getMonth() : 12;
-      return `${month}月${ndate.getDate()}日${ndate.getHours()}点`;
+      const minute = parseInt(ndate.getMinutes(), 10) === 0 ? '00' : ndate.getMinutes();
+      return `${month}月${ndate.getDate()}日${ndate.getHours()}:${minute}`;
     },
   },
 };
