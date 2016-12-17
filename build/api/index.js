@@ -73,12 +73,12 @@ serverApi.post('/pay_by_nomal', async (req, res, next) => {
 
 serverApi.post('/pay_by_member', async (req, res, next) =>{
   try{
-    const { id, start, end, location, type, rest_time } = req.body.Order;
-    console.log(id, start, end, location, type, rest_time);
-    const compResp = await db.get(`select * from 'company' where id = ${id} and rest_time > ?`, parseInt(rest_time, 10));
+    const { id, start, end, location, type, duration } = req.body.Order;
+    console.log(id, start, end, location, type);
+    const compResp = await db.get(`select * from 'company' where id = ${id} and rest_time > ?`, parseInt(duration, 10));
     console.log(compResp);
     if(compResp) {
-      await db.run(`update 'company' set rest_time = rest_time - ?`, rest_time);
+      await db.run(`update 'company' set rest_time = rest_time - ?`, duration);
       res.send({ success: true, invaild: true });
     }
     else  {
@@ -93,8 +93,8 @@ serverApi.post('/check', async (req, res, next)=> {
   const { start, end, location, type } = req.body.Order;
   console.log(start, end, location, type)
   try {
-    const resault = await db.get(`SELECT * FROM 'ORDER' WHERE LOCATION = ${location} AND TYPE = ${type}
-      AND START < ? AND END > ?`, start, start);
+    const resault = await db.get(`SELECT * FROM 'ORDER' WHERE LOCATION = ? AND TYPE = ?
+      AND START <= ? AND END >= ?`,location, type, start, start);
     console.log(resault);
     if (!resault) res.send({success: true});
     else res.send({success: false});
