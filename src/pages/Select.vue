@@ -89,6 +89,7 @@ export default {
     onTypeChange(val) {
       this.selectedType = val;
       Order.setType(val);
+      this.countPrice();
     },
     initLocation(id) {
       if (id) {
@@ -102,38 +103,36 @@ export default {
     onDate1Change(val) {
       this.time1 = this.newDate(val);
       Order.setDateStart(this.time1);
-      if (this.time2) {
-        if (this.time2 - this.time1 <= 0) {
-          this.$set('price', 0);
-          return;
-        }
-        const price = (this.time2 - this.time1) / 3600000;
-        Order.setDateEnd(this.time2);
-        Order.setPrice(price);
-        this.$set('price', price);
-      }
+      this.countPrice();
     },
     onDate2Change(val) {
       this.time2 = this.newDate(val);
-      if (this.time2 - this.time1 <= 0) {
+      Order.setDateEnd(this.time2);
+      this.countPrice();
+    },
+    countPrice() {
+      if (!Order.type || !Order.start || !Order.end || (this.time2 - this.time1 <= 0)) {
         this.$set('price', 0);
         return;
       }
-      const price = (this.time2 - this.time1) / 3600000;
-      Order.setDateEnd(this.time2);
+      let price = (this.time2 - this.time1) / 1800000;
+      switch (Order.type) {
+        case '1': price = price * 50; break;
+        case '2': price = price * 100; break;
+        case '3': price = price * 15; break;
+        default: price = price * 100; break;
+      }
       Order.setPrice(price);
       this.$set('price', price);
-      // this.price = 100;
     },
     newDate(time) {
       /* eslint-disable */
-      console.log(time);
       const i = time.substr(0, 4);
       const o = parseInt(time.substr(5, 2)) + '';
       const u = time.substr(8, 2);
-      const m = time.substr(11, 2);
-      console.log(new Date(i, o, u, m));
-      return new Date(i, o, u, m).getTime();
+      const h = time.substr(11, 2);
+      const m = time.substr(14, 2);
+      return new Date(i, o, u, h, m).getTime();
     },
   },
 };
