@@ -16,6 +16,7 @@
 <script>
 import { XButton, Flexbox, Group, XInput, Toast } from 'vux/src/components';
 import { store } from '../data/user';
+import { Order } from '../data/order';
 export default {
   components: {
     XButton,
@@ -38,6 +39,8 @@ export default {
         if (resault.success) {
           const { company } = resault;
           store.set('COMPANY', company);
+          Order.setName(company.name);
+          Order.setMobile(company.mobile);
           this.$router.go({ name: 'member_order' });
         } else {
           this.$set('show', true);

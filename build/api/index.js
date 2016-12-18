@@ -12,12 +12,12 @@ const initConfig = {
   partnerKey: "wizworkwizworkwizworkwizworkwizw",
   appId: "wx6323b528baa5d135",
   mchId: "1403540502",
-  notifyUrl: "https://api.wizwork.cn/api/test",
+  notifyUrl: "https://api.wizwork.cn/api/callback",
   pfx: fs.readFileSync("./opt/apiclient_cert.p12")
 };
 const payment = new Payment(initConfig)
-serverApi.get('/test', (req, res) => {
-  res.send('hahaha')
+serverApi.get('/callback', (req, res) => {
+  res.send('ok');
 })
 
 serverApi.get('/jsconfig', (req, res) => {
@@ -91,14 +91,58 @@ serverApi.post('/pay_by_member', async (req, res, next) =>{
 
 serverApi.post('/check', async (req, res, next)=> {
   const { start, end, location, type } = req.body.Order;
-  console.log(start, end, location, type)
   try {
-    const resault = await db.get(`SELECT * FROM 'ORDER' WHERE LOCATION = ? AND TYPE = ?
-      AND START <= ? AND END >= ?`,location, type, start, start);
-    console.log(resault);
-    if (!resault) res.send({success: true});
-    else res.send({success: false});
-    next();
+    const resault = await db.all(`SELECT * FROM 'ORDER' WHERE LOCATION = ? AND TYPE = ?
+          AND START <= ? AND END >= ?`,location, type, start, start);
+    switch (location) {
+      case '3': case '2': case '5':
+        if (resault.length >= 2) {
+          res.send({ success: false });
+          next();
+          return;
+        }
+        resault.map(order => {
+          if (order.type === '2') {
+            res.send({ success: false });
+            next();
+            break;
+          }
+        });
+        res.send({ success: true });
+        next();
+        break;
+      case '1':
+        if (resault.length > 3) {
+          res.send({ success: false });
+          next();
+          return;
+        }
+        let holder = 0;
+        resault.map(order => {
+          if (order.type == '2') holder = holder + 2;
+          else if (order.type == 1) holder = holder + 1;
+        });
+        if (holder > 4) {
+          res.send({ success: false });
+          next();
+          return;
+        }
+        res.send({ success: true });
+        next();
+        break;
+      case '4': case '6':
+        if (type != '1' || resault.length) {
+          res.send({ success: false });
+          next();
+          return;
+        }
+        res.send({ success: true });
+        next();
+    }
+    // const resault = await db.all(`SELECT * FROM 'ORDER' WHERE LOCATION = ? AND TYPE = ?
+    //   AND START <= ? AND END >= ?`,location, type, start, start);
+    // if (!resault) res.send({success: true});
+    // else res.send({success: false});
   }
   catch (err) {
     console.log(err);
