@@ -81,6 +81,10 @@ app.get('/test', (req, res, next) => {
 
 let jsconfig;
 app.get('/internal', (req, res, next) => {
+  if (!req.query && !req.query.code) {
+    res.redirect('https://api.wizwork.cn/oauth');
+    return;
+  }
   client.getAccessToken(req.query.code, (err, resault) => {
     if(err) {
       console.log(err);
