@@ -89,6 +89,17 @@ serverApi.post('/pay_by_member', async (req, res, next) =>{
   }
 })
 
+serverApi.get('/order_list', async(req, res, next) => {
+  try {
+    const result = await db.all(`SELECT * FROM 'ORDER'`);
+    res.send({success: true, result});
+    next();
+  }
+  catch (e) {
+    res.send({success: false});
+  }
+});
+
 serverApi.post('/check', async (req, res, next)=> {
   const { start, end, location, type } = req.body.Order;
   try {
@@ -105,7 +116,7 @@ serverApi.post('/check', async (req, res, next)=> {
           if (order.type === '2') {
             res.send({ success: false });
             next();
-            break;
+            return;
           }
         });
         res.send({ success: true });
@@ -165,9 +176,10 @@ async function checkPayment({start, end, location, type}) {
 serverApi.post('/finish', async (req, res, next) => {
   req.setEncoding('utf8');
   let { name, location, mobile, price, start, end, type } = req.body.Order;
+  const duration = (end - start) / 3600000 
   name = name ? name : 'no member';
   try{
-    await db.run(`INSERT INTO 'ORDER' VALUES (?, ?, ?, ?, ?, ?, ?)`,name, location, mobile, price, start, end, type);
+    await db.run(`INSERT INTO 'ORDER' VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,name, location, mobile, price, start, end, type, duration);
     res.send({success: true});
   } catch(err) {
     res.send({success: false});

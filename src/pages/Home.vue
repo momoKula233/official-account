@@ -4,7 +4,7 @@
     <div class="map">
       <img src="../images/map.jpg" alt="地图">
     </div>
-    <a href="#" class="customer-service"></a>
+    <a href="###" @click='openmodal' class="customer-service"></a>
     <div class="action-bar">
       <p class="selector-title">会议室/咖啡位位置</p>
       <div class="selector-item before-txt">
@@ -88,6 +88,9 @@ export default {
       if (this.filter.includes(parseInt(element.id, 10))) return true;
       return false;
     },
+    openmodal() {
+      windows.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=10215182&userId=22817740'
+    }
     onTypeChange() {},
     onAreaChange(val) {
       switch (val) {

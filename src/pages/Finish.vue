@@ -19,7 +19,7 @@
       </group>
       <p class="tip">( 请保存相关信息 )</p>
       <flexbox class="buttons">
-        <x-button type="primary" @click="submit">确认</x-button>
+        <x-button type="primary" @click="submit">回到首页</x-button>
       </flexbox>
     </div>
   </div>
