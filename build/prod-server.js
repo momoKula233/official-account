@@ -12,10 +12,11 @@ const WechatApi = require('wechat-api');
 const Promise = require('bluebird');
 const db = require('sqlite');
 const requestIp = require('request-ip');
-
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const swig = require('swig');
+
+const menu = require('./menu');
 
 const [token, appid, EncodingAESKey, appsecret] =
       ['xjbtoken2333',
@@ -24,6 +25,10 @@ const [token, appid, EncodingAESKey, appsecret] =
        '79ba4ea72694f803e83c60a15770fad4'];
 const api = new WechatApi(appid, appsecret);
 const client = new WechatOauth(appid, appsecret);
+
+api.createMenu(menu, (err, resault) => {
+  if (err) console.log(err);
+})
 
 import serverApi from './api';
 let url;
