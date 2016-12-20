@@ -10,15 +10,15 @@
     <div class="title">
       <div class="icon-location"></div>
       <div v-if="$route.params.id == 1">
-        <p class="name">Wizwork虹桥天地中心</p>
+        <p class="name">Wizwork虹桥天地</p>
         <p class="address">闵行区绍虹路99号虹桥天地5号楼3楼</p>
       </div>
       <div v-if="$route.params.id == 2">
-        <p class="name">Wizwork虹桥万科中心</p>
-        <p class="address">闵行区申长路988弄虹桥万科中心1号楼2楼</p>
+        <p class="name">Wizwork虹桥万科</p>
+        <p class="address">闵行区申长路988弄虹桥万科1号楼2楼</p>
       </div>
       <div v-if="$route.params.id == 3">
-        <p class="name">Wizwork嘉汇中心</p>
+        <p class="name">Wizwork嘉汇国际</p>
         <p class="address">徐汇区天钥桥路329号嘉汇国际广场B座2-5楼</p>
       </div>
       <div v-if="$route.params.id == 4">
@@ -26,11 +26,11 @@
         <p class="address">徐汇区漕溪北路333号中金国际广场B座21楼</p>
       </div>
       <div v-if="$route.params.id == 5">
-        <p class="name">Wizwork越虹中心</p>
+        <p class="name">Wizwork越虹广场</p>
         <p class="address">徐汇区虹漕路88号越虹广场B座3楼/5楼</p>
       </div>
       <div v-if="$route.params.id == 6">
-        <p class="name">Wizwork环球港中心</p>
+        <p class="name">Wizwork环球港</p>
         <p class="address">普陀区凯旋北路1188号环球港北楼8楼</p>
       </div>
     </div>
@@ -38,7 +38,7 @@
       <p class="des-title">项目描述</p>
       <div class="line"></div>
       <div v-if="$route.params.id == 1">
-        <p class="des-detail">虹桥天地中心是Wizwork品牌展示厅及企业总部所在地，充满活力动感的甲A级办公环境。紧邻新天地，景观、配套齐备，工作休闲兼宜；该项目位于虹桥商务区中心区域，凭借这一独特的区位以及便捷的交通，企业可以最大限度的获取信息、调配资源、开拓市场，最大程度的降低企业成本。</p>
+        <p class="des-detail">虹桥天地是Wizwork品牌展示厅及企业总部所在地，充满活力动感的甲A级办公环境。紧邻新天地，景观、配套齐备，工作休闲兼宜；该项目位于虹桥商务区中心区域，凭借这一独特的区位以及便捷的交通，企业可以最大限度的获取信息、调配资源、开拓市场，最大程度的降低企业成本。</p>
         <p class="des-detail des-tip">交通：地铁2、10号线虹桥火车站站（F出口）</p>
       </div>
       <div v-if="$route.params.id == 2">
@@ -46,7 +46,7 @@
         <p class="des-detail des-tip">交通：地铁2、10号线虹桥火车站站（E出口）</p>
       </div>
       <div v-if="$route.params.id == 3">
-        <p class="des-detail">嘉汇国际广场位于徐家汇中心地段天钥桥路腾飞大厦旁，包含了办公、会务、休闲、娱乐、商业、居住等国际化酒店服务。 置身于徐家汇CBD，国际商务氛围浓厚，拥有不可再生的地段优势。Wizwork嘉汇中心房型方正，每间独立办公室均带有良好的自然采光，具有绿色阳光的办公氛围。</p>
+        <p class="des-detail">嘉汇国际广场位于徐家汇中心地段天钥桥路腾飞大厦旁，包含了办公、会务、休闲、娱乐、商业、居住等国际化酒店服务。 置身于徐家汇CBD，国际商务氛围浓厚，拥有不可再生的地段优势。Wizwork嘉汇国际房型方正，每间独立办公室均带有良好的自然采光，具有绿色阳光的办公氛围。</p>
         <p class="des-detail des-tip">交通：地铁3、4号线上海体育场站（4号口）</p>
       </div>
       <div v-if="$route.params.id == 4">
@@ -54,7 +54,7 @@
         <p class="des-detail des-tip">交通：地铁1、9、11号线徐家汇站（5号口）</p>
       </div>
       <div v-if="$route.params.id == 5">
-        <p class="des-detail">H88越虹广场位于田林路、苍梧路，由两栋5A甲级写字楼组成。位于漕河泾商圈核心繁华地段，项目及周边为客户提供创意办公、商务、酒店、休闲、娱乐、专业市场、零售、文化服务等多种服务。Wizwork越虹中心主打休闲健康的办公方式，已入驻不少年轻时尚、朝气蓬勃的团队。</p>
+        <p class="des-detail">H88越虹广场位于田林路、苍梧路，由两栋5A甲级写字楼组成。位于漕河泾商圈核心繁华地段，项目及周边为客户提供创意办公、商务、酒店、休闲、娱乐、专业市场、零售、文化服务等多种服务。Wizwork越虹广场主打休闲健康的办公方式，已入驻不少年轻时尚、朝气蓬勃的团队。</p>
         <p class="des-detail des-tip">交通：地铁9号线桂林路站（4号口），12号线虹漕路站（1号口）</p>
       </div>
       <div v-if="$route.params.id == 6">
@@ -82,13 +82,13 @@
             <div class="right-line"></div>
           </div>
         </flexbox-item>
-         <flexbox-item>
+         <!--<flexbox-item>
           <div class="price">
             <p><span>500</span>元/时</p>
             <p class="type">20-50人会议室</p>
             <div class="right-line"></div>
           </div>
-        </flexbox-item>
+        </flexbox-item>-->
          <flexbox-item>
           <div class="price small-txt">
             <p><span>30</span>元/人/时</p>
@@ -104,13 +104,13 @@
             <div class="right-line"></div>
           </div>
         </flexbox-item>
-        <flexbox-item>
+        <!--<flexbox-item>
           <div class="price">
             <p><span>200</span>元/时</p>
             <p class="type">8-20人会议室</p>
             <div class="right-line"></div>
           </div>
-        </flexbox-item>
+        </flexbox-item>-->
          <flexbox-item>
           <div class="price">
             <p><span>30</span>元/人/时</p>
