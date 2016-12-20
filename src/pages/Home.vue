@@ -89,8 +89,8 @@ export default {
       return false;
     },
     openmodal() {
-      windows.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=10215182&userId=22817740'
-    }
+      window.location.href = 'http://p.qiao.baidu.com/cps/chat?siteId=10215182&userId=22817740'
+    },
     onTypeChange() {},
     onAreaChange(val) {
       switch (val) {
