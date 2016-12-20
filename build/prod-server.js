@@ -118,6 +118,14 @@ app.get('/jsconfig', (req, res, next) => {
   next();
 })
 
+app.get('/get_media_id', (req, res, next) => {
+  const offset = req.query.offset || 0;
+  api.getMaterials('news', offset, 20, (err, result, res) => {
+    if (err) console.log(err);
+      res.send({result});
+  })
+})
+
 app.get('/home', (req, res, next) => {
   res.render('index');
 });
