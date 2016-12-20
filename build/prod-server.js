@@ -26,9 +26,10 @@ const [token, appid, EncodingAESKey, appsecret] =
 const api = new WechatApi(appid, appsecret);
 const client = new WechatOauth(appid, appsecret);
 
-api.createMenu(menu, (err, resault) => {
+ api.createMenu(menu, (err, result) => {
   if (err) console.log(err);
-})
+  console.log(result);
+ })
 
 import serverApi from './api';
 let url;
@@ -120,7 +121,8 @@ app.get('/jsconfig', (req, res, next) => {
 
 app.get('/get_media_id', (req, res, next) => {
   const offset = req.query.offset || 0;
-  api.getMaterials('news', offset, 20, (err, result, res) => {
+  api.getMaterials('news', offset, 20, (err, result, resp) => {
+    console.log(resp, '========')
     if (err) console.log(err);
       res.send({result});
   })
