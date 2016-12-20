@@ -34,35 +34,6 @@
           "url":"http://mp.weixin.qq.com/s/kS1E9k6ZZ83YzrlBjYFfLw"
         }]
     },
-   {
-     "name":"项目介绍",
-     "sub_button":[
-        {
-          "type":"view",
-          "name":"虹桥商务区",
-          "url":"http://mp.weixin.qq.com/s/AKIrrkZKptgbys6b_S56Ow"
-        },
-        {
-          "type":"view",
-          "name":"越虹广场",
-          "url":"http://mp.weixin.qq.com/s/mnOfbQMYVi7vFmsoh2XzJQ"
-        },
-        {
-          "type":"view",
-          "name":"嘉汇国际",
-          "url":"http://mp.weixin.qq.com/s/xJPqECaHbPt3ghavoUb-Ig"
-        },
-        {
-          "type":"view",
-          "name":"中金国际",
-          "url":"http://mp.weixin.qq.com/s/Tx2bQggXlVJBJ5WbNwhc8Q"
-        },
-        {
-          "type":"view",
-          "name":"环球港",
-          "url":"http://mp.weixin.qq.com/s/kS1E9k6ZZ83YzrlBjYFfLw"
-        }]
-    },
     {
      "name":"关于我们",
      "sub_button":[
