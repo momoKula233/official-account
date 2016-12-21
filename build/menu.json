@@ -9,9 +9,9 @@
      "name":"项目介绍",
      "sub_button":[
         {
-          "type":"view",
+          "type":"media_id",
           "name":"虹桥商务区",
-          "url":"http://mp.weixin.qq.com/s/AKIrrkZKptgbys6b_S56Ow"
+          "media_id":"RQqbbuesTQhCDzWAMNG_b7DHsCoKURtBZG88p8EnBHs"
         },
         {
           "type":"view",
