@@ -72,6 +72,12 @@ function renderError(sendErrorObj) {
 let wechat_api;
 
 app.use('/wechat', wechat('xjbtoken2333', (req, res, next) => {
+  const message = req.weixin
+  if (message.FromUserName === 'diaosi') {
+    res.reply('');
+  } else if (message === 'YukiYukiYu') {
+    res.reply('miliyouzi');
+  }
   next();
 }))
 
