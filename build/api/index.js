@@ -60,7 +60,7 @@ serverApi.post('/pay_by_nomal', async (req, res, next) => {
     body: 'Wizwork',
     attach: '会议室征用',
     out_trade_no: 'wizwork' + new Date().getTime(),
-    total_fee: total,
+    total_fee: total * 100,
     spbill_create_ip: '127.0.0.1',
     openid,
     trade_type: 'JSAPI'
@@ -74,9 +74,7 @@ serverApi.post('/pay_by_nomal', async (req, res, next) => {
 serverApi.post('/pay_by_member', async (req, res, next) =>{
   try{
     const { id, start, end, location, type, duration } = req.body.Order;
-    console.log(id, start, end, location, type);
     const compResp = await db.get(`select * from 'company' where id = ${id} and rest_time > ?`, parseInt(duration, 10));
-    console.log(compResp);
     if(compResp) {
       await db.run(`update 'company' set rest_time = rest_time - ?`, duration);
       res.send({ success: true, invaild: true });
@@ -102,11 +100,14 @@ serverApi.get('/order_list', async(req, res, next) => {
 
 serverApi.post('/check', async (req, res, next)=> {
   const { start, end, location, type } = req.body.Order;
+  console.log(start, end, location, type);
   try {
     const resault = await db.all(`SELECT * FROM 'ORDER' WHERE LOCATION = ? AND TYPE = ?
           AND START <= ? AND END >= ?`,location, type, start, start);
+    console.log(resault, '=====await====');
     switch (location) {
       case '3': case '2': case '5':
+	console.log('st1');
         if (resault.length >= 2) {
           res.send({ success: false });
           next();
@@ -123,6 +124,7 @@ serverApi.post('/check', async (req, res, next)=> {
         next();
         break;
       case '1':
+	console.log('st2');
         if (resault.length > 3) {
           res.send({ success: false });
           next();
@@ -142,6 +144,7 @@ serverApi.post('/check', async (req, res, next)=> {
         next();
         break;
       case '4': case '6':
+	console.log('st3');
         if (type != '1' || resault.length) {
           res.send({ success: false });
           next();
@@ -160,6 +163,17 @@ serverApi.post('/check', async (req, res, next)=> {
     next();
   }
 })
+
+serverApi.get('/order_list', async(req, res, next) => {
+  try {
+    const result = await db.all(`SELECT * FROM 'ORDER'`);
+    res.send({success: true, result});
+    next();
+  }
+  catch (e) {
+    res.send({success: false});
+  }
+});
 
 async function checkPayment({start, end, location, type}) {
   let canPay = false;
