@@ -15,6 +15,7 @@ const requestIp = require('request-ip');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const swig = require('swig');
+const connect = require('connect');
 
 const menu = require('./menu');
 
@@ -43,8 +44,6 @@ app.use(cookieParser());
 app.engine('html', swig.renderFile);
 app.use(express.static('dist', {'extensions': ['html']}));
 app.use(express.query());
-app.use(requestIp.mw());
-app.set('trust proxy', true);
 const wechatConfig = {
   token,
   appid,
@@ -69,15 +68,19 @@ function renderError(sendErrorObj) {
   });
 }
 
+
+
 let wechat_api;
 
 app.use('/wechat', wechat('xjbtoken2333', (req, res, next) => {
-  const message = req.weixin
-  if (message.FromUserName === 'diaosi') {
+  req.setEncoding('utf8');
+  const message = req.weixin;
+  console.log(message.Content)
+  if (message.Content) {
     res.reply('');
-  } else if (message === 'YukiYukiYu') {
-    res.reply('miliyouzi');
-  }
+    next();
+    return;
+  } 
   next();
 }))
 
