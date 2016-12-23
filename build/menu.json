@@ -49,13 +49,18 @@
         },
         {
           "type":"view",
+          "name":"福利社",
+          "url":"http://mp.weixin.qq.com/s/Pgsc10KTHuU8iVQf1zsKmQ?from_safari=1&scene=40#wechat_redirect"
+        },
+        {
+          "type":"view",
           "name":"合作伙伴",
-          "url":"http://mp.weixin.qq.com/s/mynHzc2EqI25-js54KQCCw "
+          "url":"http://mp.weixin.qq.com/s/mynHzc2EqI25-js54KQCCw"
         },
         {
           "type":"view",
           "name":"联系我们",
-          "url":"http://mp.weixin.qq.com/s/K3kytICEtuze4zYaBoA97Q "
+          "url":"http://mp.weixin.qq.com/s/K3kytICEtuze4zYaBoA97Q"
         }]
     }]
 }
